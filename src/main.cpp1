@@ -1,0 +1,27 @@
+// src/main.cpp
+#include "raylib-cpp.hpp"
+
+int main() {
+    raylib::Window window(800, 600, "Hello Raylib C++");
+    float a=0;
+    std::string message = "Hello from C++!";
+
+    while (!window.ShouldClose()) {
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+        DrawText("Hello, Raylib C++! ", 190, 200, 20, LIGHTGRAY);
+        message="Score : "+std::to_string((int)a);
+        DrawText(message.c_str(), 200, 80, 20, RED);
+
+
+
+    
+        EndDrawing();
+if(a>=100){
+    a=0;
+}
+        a+=0.001;
+    }
+
+    return 0;
+}
