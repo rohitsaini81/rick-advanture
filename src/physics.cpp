@@ -1,6 +1,8 @@
 #include "physics.h"
 #include <iostream>
-
+#include "raylib.h"
+#include "raymath.h"
+#include "global_var.h"
 // Bullet globals
 btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
 btBroadphaseInterface* broadphase = nullptr;
@@ -111,47 +113,39 @@ void render() {
         dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
     }
 
- /*   if (boxBody && boxBody->getMotionState()) {
+   if (boxBody && boxBody->getMotionState()) {
         btTransform trans;
         boxBody->getMotionState()->getWorldTransform(trans);
         btVector3 pos = trans.getOrigin();
-        //setPlayerX(pos.getX());
-        //setPlayerY(pos.getY());
-        //setPlayerZ(pos.getZ());
+        // DrawModelEx(plane, { pos.getX(), pos.getY(), pos.getZ() }, {1,0,0}, -90, {1,1,1}, WHITE);
+        DrawModel(plane,{ pos.getX(), pos.getY(), pos.getZ() },1.0f,WHITE);
+
+        // DrawCube({ pos.getX(), pos.getY(), pos.getZ() }, 2, 2, 2, RED);
        std::cout<<"rendering physics: " << getPlayerX() << std::endl;
     } else {
         std::cerr << "[ERROR] boxBody or its motion state is null!" << std::endl;
-    }*/
-if(!playerBody){
-    std::cout<<"playerBody is null\n";
-}
+    }
+
+
+
 if(playerBody && playerBody->getMotionState()){
 btTransform trans;
 playerBody->getMotionState()->getWorldTransform(trans);
-
 // Get Bullet position as btVector3
 btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(bulletPos.getX());setPlayerZ(bulletPos.getZ());
     std::cout << "rendering physics: " << bulletPos.getY() << std::endl;
 }
-
+//this if should be moved to previews one
+//movement and jump controls
 if(playerBody && playerBody->getLinearVelocity()){
-
-
-
 btVector3 vel(0, playerBody->getLinearVelocity().getY(), 0); // keep current vertical velocity (gravity)
 
 if (IsKeyDown(KEY_W)) vel += btVector3(0, 0, -5);
 if (IsKeyDown(KEY_S)) vel += btVector3(0, 0, 5);
 if (IsKeyDown(KEY_A)) vel += btVector3(-5, 0, 0);
 if (IsKeyDown(KEY_D)) vel += btVector3(5, 0, 0);
-
 playerBody->setLinearVelocity(vel);
-
-
-if (IsKeyPressed(KEY_SPACE)) {
-        playerBody->applyCentralImpulse(btVector3(0, 5, 0));
-}
-}
+if (IsKeyPressed(KEY_SPACE)) {playerBody->applyCentralImpulse(btVector3(0, 5, 0));}}
 
 
 

@@ -4,6 +4,7 @@ ab_rick: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/crtbeginS.o \
   CMakeFiles/ab_rick.dir/src/main.cpp.o \
   CMakeFiles/ab_rick.dir/src/physics.cpp.o \
+  CMakeFiles/ab_rick.dir/src/global_var.cpp.o \
   /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a \
   /usr/local/lib/libBulletDynamics.so \
   /usr/local/lib/libBulletCollision.so \
@@ -60,6 +61,8 @@ ab_rick: \
 CMakeFiles/ab_rick.dir/src/main.cpp.o:
 
 CMakeFiles/ab_rick.dir/src/physics.cpp.o:
+
+CMakeFiles/ab_rick.dir/src/global_var.cpp.o:
 
 /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a:
 

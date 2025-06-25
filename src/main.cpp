@@ -3,20 +3,18 @@
 #include "raymath.h"
 #include <iostream>
 #include <string>
+#include "global_var.h"
 int main() {
     //controls control;
     // Initialization
     InitWindow(800, 600, "Rick and Morty Baby");
-InitPhysics();
-const std::string Path= "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/";
+    INIT_BEFORE();
+    InitPhysics();
+// const std::string Path= "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/";
 const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/assets/rick/rick.glb";
     Model model = LoadModel(modelPath);
-    Model plane = LoadModel((Path+"src/assets/plane.glb").c_str());
-
-
-    if (plane.meshCount == 0) {
-    std::cerr << "Failed to load plane model!" << std::endl;
-}
+    // Model plane = LoadModel((project_dir+"src/assets/cube.glb").c_str());
+    // if (plane.meshCount == 0) {std::cerr << "Failed to load plane model!" << std::endl;}
 
     int animCount = 0;
     ModelAnimation* anims = LoadModelAnimations(modelPath, &animCount);
@@ -46,7 +44,6 @@ const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/h
             if (animFrameCounter >= anims[0].frameCount) animFrameCounter = 0;
             UpdateModelAnimation(model, anims[0], (int)animFrameCounter);
         }
-        render();
 //        std::cout<<"what";
 
         // Update camera to follow player from behind and above
@@ -64,13 +61,14 @@ const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/h
         playerPos.x=getPlayerX();
         playerPos.y=getPlayerY();
         playerPos.z=getPlayerZ();
-      //  DrawModel(plane,planePos,1.0f,WHITE);
+    //    DrawModel(plane,planePos,1.0f,WHITE);
 
 
+      render();
 
 
-        DrawModelEx(plane, planePos, {1.0f, 0.0f, 0.0f}, -90.0f, {1.0f, 1.0f, 1.0f}, WHITE);
-
+        // DrawModelEx(plane, planePos, {1.0f, 0.0f, 0.0f}, -90.0f, {1.0f, 1.0f, 1.0f}, WHITE);
+        // DrawCube({ 1.0f, 1.0f,1.0f }, 2, 2, 2, RED);
         DrawGrid(10, 1.0f);
 
         EndMode3D();
@@ -83,6 +81,9 @@ const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/h
     // Cleanup
     if (animCount > 0) UnloadModelAnimations(anims, animCount);
     UnloadModel(model);
+    UnloadModel(plane);
+    CleanupPhysics();
+
     CloseWindow();
 
     return 0;

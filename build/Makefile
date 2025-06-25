@@ -129,6 +129,30 @@ ab_rick/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/build
 .PHONY : ab_rick/fast
 
+src/global_var.o: src/global_var.cpp.o
+.PHONY : src/global_var.o
+
+# target to build an object file
+src/global_var.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/global_var.cpp.o
+.PHONY : src/global_var.cpp.o
+
+src/global_var.i: src/global_var.cpp.i
+.PHONY : src/global_var.i
+
+# target to preprocess a source file
+src/global_var.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/global_var.cpp.i
+.PHONY : src/global_var.cpp.i
+
+src/global_var.s: src/global_var.cpp.s
+.PHONY : src/global_var.s
+
+# target to generate assembly for a file
+src/global_var.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/global_var.cpp.s
+.PHONY : src/global_var.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -186,6 +210,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ab_rick"
+	@echo "... src/global_var.o"
+	@echo "... src/global_var.i"
+	@echo "... src/global_var.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

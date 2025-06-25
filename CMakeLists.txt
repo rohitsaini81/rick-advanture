@@ -24,6 +24,7 @@ include_directories(/usr/local/include)
 add_executable(${PROJECT_NAME}
      src/main.cpp
      src/physics.cpp
+     src/global_var.cpp
 )
 
 # Link static raylib library (with full path)
