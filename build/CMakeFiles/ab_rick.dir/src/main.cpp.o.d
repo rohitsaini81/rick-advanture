@@ -300,4 +300,5 @@ CMakeFiles/ab_rick.dir/src/main.cpp.o: \
  /usr/include/c++/15.1.1/bits/basic_ios.tcc \
  /usr/include/c++/15.1.1/bits/ostream.tcc /usr/include/c++/15.1.1/istream \
  /usr/include/c++/15.1.1/bits/istream.tcc \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.h
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/camera.h

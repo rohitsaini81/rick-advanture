@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ab_rick.dir/link.d"
+  "CMakeFiles/ab_rick.dir/src/camera.cpp.o"
+  "CMakeFiles/ab_rick.dir/src/camera.cpp.o.d"
   "CMakeFiles/ab_rick.dir/src/global_var.cpp.o"
   "CMakeFiles/ab_rick.dir/src/global_var.cpp.o.d"
   "CMakeFiles/ab_rick.dir/src/main.cpp.o"
