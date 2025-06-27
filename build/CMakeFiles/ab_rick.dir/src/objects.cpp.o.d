@@ -1,9 +1,6 @@
-CMakeFiles/ab_rick.dir/src/physics.cpp.o: \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/physics.cpp \
+CMakeFiles/ab_rick.dir/src/objects.cpp.o: \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/objects.cpp \
  /usr/include/stdc-predef.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/physics.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-src/src/raylib.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include/stdarg.h \
  /usr/local/include/bullet/btBulletDynamicsCommon.h \
  /usr/local/include/bullet/btBulletCollisionCommon.h \
  /usr/local/include/bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h \
@@ -88,6 +85,7 @@ CMakeFiles/ab_rick.dir/src/physics.cpp.o: \
  /usr/local/include/bullet/LinearMath/btVector3.h \
  /usr/local/include/bullet/LinearMath/btQuaternion.h \
  /usr/local/include/bullet/LinearMath/btQuadWord.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include/stdarg.h \
  /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__mbstate_t.h \
  /usr/include/bits/types/__fpos64_t.h /usr/include/bits/types/__FILE.h \
  /usr/include/bits/types/FILE.h /usr/include/bits/types/struct_FILE.h \
@@ -299,7 +297,5 @@ CMakeFiles/ab_rick.dir/src/physics.cpp.o: \
  /usr/include/c++/15.1.1/bits/basic_ios.tcc \
  /usr/include/c++/15.1.1/bits/ostream.tcc /usr/include/c++/15.1.1/istream \
  /usr/include/c++/15.1.1/bits/istream.tcc \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-src/src/raymath.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/camera.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/objects.h
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/physics.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-src/src/raylib.h

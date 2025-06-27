@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "global_var.h"
+#include "camera.h"
 int main() {
     //controls control;
     // Initialization
@@ -21,19 +22,21 @@ const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/h
     float animFrameCounter = 0.0f;
 
 
-    // Camera setup
-    Camera camera = {0};
-    camera.projection = CAMERA_PERSPECTIVE;
-    camera.up = {0.0f, 1.0f, 0.0f};
-    camera.fovy = 45.0f;
+    CAM_INIT();
     // Player state
-    Vector3 playerPos = {0.0f, 0.0f, 0.0f};
     Vector3 planePos = {0.0f, 0.0f, 0.0f};
     float velocityY = 0.0f;
     float gravity = 0.1f;
     float speed = 5.0f;
 
     SetTargetFPS(60);
+
+
+
+
+SetMousePosition(GetScreenWidth() / 2, GetScreenHeight() / 2);
+
+
 
     while (!WindowShouldClose()) {
         float delta = GetFrameTime();
@@ -47,22 +50,28 @@ const char* modelPath = "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/h
 //        std::cout<<"what";
 
         // Update camera to follow player from behind and above
-        Vector3 cameraOffset = {-5.0f, 4.0f, 5.0f}; // Offset behind and above
-        camera.position = Vector3Add(playerPos, cameraOffset);
-        camera.target = playerPos;
+        // Vector3 cameraOffset = {-5.0f, 4.0f, 5.0f}; // Offset behind and above
+        // camera.position = Vector3Add(playerPos, cameraOffset);
+        // camera.target = playerPos;
+
+
+
+        UPDATE_CAMERA();
+
+
+
+
+
 
         // Render
         BeginDrawing();
         ClearBackground(BLACK);
 
         BeginMode3D(camera);
-
         DrawModel(model, playerPos, 1.0f, WHITE);
         playerPos.x=getPlayerX();
-        playerPos.y=getPlayerY();
+        playerPos.y=(getPlayerY()-1.0f);
         playerPos.z=getPlayerZ();
-    //    DrawModel(plane,planePos,1.0f,WHITE);
-
 
       render();
 

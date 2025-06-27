@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "global_var.h"
+#include "camera.h"
+#include "objects.h"
 // Bullet globals
 btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
 btBroadphaseInterface* broadphase = nullptr;
@@ -55,18 +57,27 @@ void InitPhysics() {
     boxShape = new btBoxShape(btVector3(1, 1, 1));
     boxMotion = new btDefaultMotionState(
         btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
-    btScalar mass = 1.0f;
+    btScalar boxmass = 100.0f;
 btVector3 inertia(0, 0, 0);
-    boxShape->calculateLocalInertia(mass, inertia);
-    btRigidBody::btRigidBodyConstructionInfo boxInfo(mass, boxMotion, boxShape, inertia);
+    boxShape->calculateLocalInertia(boxmass, inertia);
+    btRigidBody::btRigidBodyConstructionInfo boxInfo(boxmass, boxMotion, boxShape, inertia);
     boxBody = new btRigidBody(boxInfo);
     dynamicsWorld->addRigidBody(boxBody);
 
 
 
 
-    playerShape = new btCapsuleShape(0.5f, 1.0f); // or btBoxShap
-startTransform.setIdentity();
+    // float capsuleRadius = 0.2f;     // half of 0.4m
+    // float capsuleHeight = 1.5f;     // total height 1.8m = 1.4 + 0.2*2
+    // btScalar mass = 1.0f;
+
+    // playerShape = new btCapsuleShape(capsuleRadius, capsuleHeight);
+    btScalar mass = 1.0f;
+
+// Replace capsule with box (half extents = fullSize / 2)
+btVector3 halfExtents(0.2f, 0.95f, 0.2f);  // 0.4 x 1.9 x 0.4 box
+playerShape = new btBoxShape(halfExtents);
+    startTransform.setIdentity();
 startTransform.setOrigin(btVector3(0, 5, 0)); // Starting position
 
 playerShape->calculateLocalInertia(mass, inertia);
@@ -74,9 +85,13 @@ playerShape->calculateLocalInertia(mass, inertia);
 motionState = new btDefaultMotionState(startTransform);
 btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, playerShape, inertia);
 playerBody = new btRigidBody(rbInfo);
-
+playerBody->setAngularFactor(btVector3(0, 1, 0));  // allow rotation only on Y-axi
+playerBody->setActivationState(DISABLE_DEACTIVATION);
 // Add to physics world
 dynamicsWorld->addRigidBody(playerBody);
+
+
+CREATE_ELEM();
 
 }
 
@@ -114,37 +129,89 @@ void render() {
     }
 
    if (boxBody && boxBody->getMotionState()) {
-        btTransform trans;
-        boxBody->getMotionState()->getWorldTransform(trans);
-        btVector3 pos = trans.getOrigin();
-        // DrawModelEx(plane, { pos.getX(), pos.getY(), pos.getZ() }, {1,0,0}, -90, {1,1,1}, WHITE);
-        DrawModel(plane,{ pos.getX(), pos.getY(), pos.getZ() },1.0f,WHITE);
-
-        // DrawCube({ pos.getX(), pos.getY(), pos.getZ() }, 2, 2, 2, RED);
-       std::cout<<"rendering physics: " << getPlayerX() << std::endl;
-    } else {
+    btTransform trans;
+    boxBody->getMotionState()->getWorldTransform(trans);
+    btVector3 pos = trans.getOrigin();
+    DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, BLUE);
+   std::cout<<"rendering physics 1: " << getPlayerX() << std::endl;
+} else {
         std::cerr << "[ERROR] boxBody or its motion state is null!" << std::endl;
     }
+
+    if (!playerBody || !playerBody->getMotionState()) {
+        std::cerr << "Player body or motion state is null!" << std::endl;
+        return;
+    }
+    
 
 
 
 if(playerBody && playerBody->getMotionState()){
 btTransform trans;
 playerBody->getMotionState()->getWorldTransform(trans);
+
+// btQuaternion rotation;
+std::cout<<yaw<<"\n";
+// rotation.setEuler(DEG2RAD * yaw, 0, 0);  // Note: Bullet uses ZYX order for setEuler
+// btQuaternion rotation(btVector3(0, 1, 0), DEG2RAD * yaw);
+// std::cout << "Quat: " << rotation.getX() << ", " << rotation.getY() << ", " << rotation.getZ() << ", " << rotation.getW() << std::endl;
+
+// trans.setRotation(rotation);
+
 // Get Bullet position as btVector3
+// Vector3 modelPosition = { bulletPos.getX(), bulletPos.getY() - 1.0f, bulletPos.getZ() };
+
+// Use modelPosition when drawing
 btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(bulletPos.getX());setPlayerZ(bulletPos.getZ());
-    std::cout << "rendering physics: " << bulletPos.getY() << std::endl;
+    std::cout << "rendering physics: " << bulletPos.getX() << std::endl;
+
+    float capsuleVisualHeight = 1.5f + 2 * 0.2f; // total 1.9
+    float halfHeight = capsuleVisualHeight / 2.0f;
+    
+    Vector3 startPos = { bulletPos.getX(), bulletPos.getY() - halfHeight, bulletPos.getZ() };
+    Vector3 endPos   = { bulletPos.getX(), bulletPos.getY() + halfHeight, bulletPos.getZ() };
+    
+    DrawCapsule(startPos, endPos, 0.2f, 16, 8, RED);
+    
 }
 //this if should be moved to previews one
 //movement and jump controls
 if(playerBody && playerBody->getLinearVelocity()){
-btVector3 vel(0, playerBody->getLinearVelocity().getY(), 0); // keep current vertical velocity (gravity)
 
-if (IsKeyDown(KEY_W)) vel += btVector3(0, 0, -5);
-if (IsKeyDown(KEY_S)) vel += btVector3(0, 0, 5);
-if (IsKeyDown(KEY_A)) vel += btVector3(-5, 0, 0);
-if (IsKeyDown(KEY_D)) vel += btVector3(5, 0, 0);
-playerBody->setLinearVelocity(vel);
+btVector3 vel(0, playerBody->getLinearVelocity().getY(), 0); // keep current vertical velocity (gravity)
+if (IsKeyDown(KEY_UP)) std::cout<<"is it fine ? \n";
+
+
+// Get camera forward and right direction (only XZ for movement)
+Vector3 forward = Vector3Normalize(Vector3Subtract(camera.target, camera.position));
+Vector3 right = Vector3Normalize(Vector3CrossProduct(forward, { 0, 1, 0 }));
+
+// Flatten to XZ plane
+forward.y = 0;
+right.y = 0;
+
+// Movement vector
+btVector3 moveDir(0, 0, 0);
+
+if (IsKeyDown(KEY_W)) moveDir += btVector3(forward.x, 0, forward.z);
+if (IsKeyDown(KEY_S)) moveDir -= btVector3(forward.x, 0, forward.z);
+if (IsKeyDown(KEY_D)) moveDir += btVector3(right.x, 0, right.z);
+if (IsKeyDown(KEY_A)) moveDir -= btVector3(right.x, 0, right.z);
+
+// Keep vertical velocity
+btVector3 currentVel = playerBody->getLinearVelocity();
+if (moveDir.length2() > 0.0001f) {
+    moveDir = moveDir.normalized() * 5.0f;
+} else {
+    moveDir = btVector3(0, 0, 0);
+}
+
+
+// speed
+moveDir.setY(currentVel.getY());
+
+playerBody->setLinearVelocity(moveDir);
+
 if (IsKeyPressed(KEY_SPACE)) {playerBody->applyCentralImpulse(btVector3(0, 5, 0));}}
 
 
