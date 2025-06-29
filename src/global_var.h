@@ -7,7 +7,7 @@ extern const std::string project_dir;
 extern float yaw;
 extern Model plane;
 extern Vector3 playerPos;
-     
+extern float playerMoveSpeed;
 extern void INIT_BEFORE();
 
 

@@ -27,6 +27,7 @@ add_executable(${PROJECT_NAME}
      src/global_var.cpp
      src/camera.cpp
      src/objects.cpp
+     src/elements.cpp
 )
 
 # Link static raylib library (with full path)

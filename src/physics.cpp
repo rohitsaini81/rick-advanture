@@ -55,10 +55,9 @@ void InitPhysics() {
 
     // Box setup
     boxShape = new btBoxShape(btVector3(1, 1, 1));
-    boxMotion = new btDefaultMotionState(
-        btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
-    btScalar boxmass = 100.0f;
-btVector3 inertia(0, 0, 0);
+    boxMotion = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 10, 0)));
+    btScalar boxmass = 80.0f;
+    btVector3 inertia(0, 0, 0);
     boxShape->calculateLocalInertia(boxmass, inertia);
     btRigidBody::btRigidBodyConstructionInfo boxInfo(boxmass, boxMotion, boxShape, inertia);
     boxBody = new btRigidBody(boxInfo);
@@ -128,21 +127,41 @@ void render() {
         dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
     }
 
-   if (boxBody && boxBody->getMotionState()) {
+
+
+
+   
+    for (Elements* elem : elementList) {
+        btTransform trans;
+        if (elem->body->getMotionState()) {
+            elem->body->getMotionState()->getWorldTransform(trans);
+        } else {
+            trans = elem->body->getCenterOfMassTransform();
+        }
+    
+        btVector3 pos = trans.getOrigin();
+        DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, RED);
+        std::cout << "Position: " << pos.getX() << ", " << pos.getY() << ", " << pos.getZ() << std::endl;
+        std::cout << "Velocity: " << elem->body->getLinearVelocity().getY() << std::endl;
+    }
+    
+
+
+   if (boxBody!=nullptr && boxBody->getMotionState() !=nullptr) {
     btTransform trans;
     boxBody->getMotionState()->getWorldTransform(trans);
     btVector3 pos = trans.getOrigin();
     DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, BLUE);
-   std::cout<<"rendering physics 1: " << getPlayerX() << std::endl;
-} else {
+
+//   std::cout<<"rendering physics 1: " << getPlayerX() << std::endl;
+}
+    else {
         std::cerr << "[ERROR] boxBody or its motion state is null!" << std::endl;
     }
 
-    if (!playerBody || !playerBody->getMotionState()) {
-        std::cerr << "Player body or motion state is null!" << std::endl;
-        return;
-    }
-    
+
+
+
 
 
 
@@ -150,20 +169,10 @@ if(playerBody && playerBody->getMotionState()){
 btTransform trans;
 playerBody->getMotionState()->getWorldTransform(trans);
 
-// btQuaternion rotation;
-std::cout<<yaw<<"\n";
-// rotation.setEuler(DEG2RAD * yaw, 0, 0);  // Note: Bullet uses ZYX order for setEuler
-// btQuaternion rotation(btVector3(0, 1, 0), DEG2RAD * yaw);
-// std::cout << "Quat: " << rotation.getX() << ", " << rotation.getY() << ", " << rotation.getZ() << ", " << rotation.getW() << std::endl;
-
-// trans.setRotation(rotation);
-
-// Get Bullet position as btVector3
-// Vector3 modelPosition = { bulletPos.getX(), bulletPos.getY() - 1.0f, bulletPos.getZ() };
 
 // Use modelPosition when drawing
 btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(bulletPos.getX());setPlayerZ(bulletPos.getZ());
-    std::cout << "rendering physics: " << bulletPos.getX() << std::endl;
+   // std::cout << "rendering physics: " << bulletPos.getX() << std::endl;
 
     float capsuleVisualHeight = 1.5f + 2 * 0.2f; // total 1.9
     float halfHeight = capsuleVisualHeight / 2.0f;
@@ -213,7 +222,6 @@ moveDir.setY(currentVel.getY());
 playerBody->setLinearVelocity(moveDir);
 
 if (IsKeyPressed(KEY_SPACE)) {playerBody->applyCentralImpulse(btVector3(0, 5, 0));}}
-
 
 
 }

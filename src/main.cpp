@@ -68,6 +68,8 @@ SetMousePosition(GetScreenWidth() / 2, GetScreenHeight() / 2);
         ClearBackground(BLACK);
 
         BeginMode3D(camera);
+        DrawCube({ 20.0f, 5.0f, 0.0f }, 2.0f, 2.0f, 2.0f, WHITE);
+
         DrawModel(model, playerPos, 1.0f, WHITE);
         playerPos.x=getPlayerX();
         playerPos.y=(getPlayerY()-1.0f);
@@ -77,11 +79,9 @@ SetMousePosition(GetScreenWidth() / 2, GetScreenHeight() / 2);
 
 
         // DrawModelEx(plane, planePos, {1.0f, 0.0f, 0.0f}, -90.0f, {1.0f, 1.0f, 1.0f}, WHITE);
-        // DrawCube({ 1.0f, 1.0f,1.0f }, 2, 2, 2, RED);
         DrawGrid(10, 1.0f);
 
         EndMode3D();
-        //DrawCube(playerPos, 1.0f, 2.0f, 1.0f, RED); // Temporary debug cube
 
         DrawText("Use WASD to move, SPACE to jump", 10, 10, 20, DARKGRAY);
         EndDrawing();
