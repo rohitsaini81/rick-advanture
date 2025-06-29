@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/camera.cpp" "CMakeFiles/ab_rick.dir/src/camera.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/camera.cpp.o.d"
+  "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/elements.cpp" "CMakeFiles/ab_rick.dir/src/elements.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/elements.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.cpp" "CMakeFiles/ab_rick.dir/src/global_var.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/global_var.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/main.cpp" "CMakeFiles/ab_rick.dir/src/main.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/main.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/objects.cpp" "CMakeFiles/ab_rick.dir/src/objects.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/objects.cpp.o.d"

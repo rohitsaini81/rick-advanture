@@ -7,6 +7,7 @@ ab_rick: \
   CMakeFiles/ab_rick.dir/src/global_var.cpp.o \
   CMakeFiles/ab_rick.dir/src/camera.cpp.o \
   CMakeFiles/ab_rick.dir/src/objects.cpp.o \
+  CMakeFiles/ab_rick.dir/src/elements.cpp.o \
   /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a \
   /usr/local/lib/libBulletDynamics.so \
   /usr/local/lib/libBulletCollision.so \
@@ -69,6 +70,8 @@ CMakeFiles/ab_rick.dir/src/global_var.cpp.o:
 CMakeFiles/ab_rick.dir/src/camera.cpp.o:
 
 CMakeFiles/ab_rick.dir/src/objects.cpp.o:
+
+CMakeFiles/ab_rick.dir/src/elements.cpp.o:
 
 /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a:
 

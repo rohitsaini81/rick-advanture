@@ -85,12 +85,12 @@ clean: CMakeFiles/ab_rick.dir/clean
 CMakeFiles/ab_rick.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target ab_rick"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target ab_rick"
 .PHONY : CMakeFiles/ab_rick.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ab_rick.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ab_rick.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 0
 .PHONY : CMakeFiles/ab_rick.dir/rule
@@ -102,7 +102,7 @@ ab_rick: CMakeFiles/ab_rick.dir/rule
 # codegen rule for target.
 CMakeFiles/ab_rick.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target ab_rick"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Finished codegen for target ab_rick"
 .PHONY : CMakeFiles/ab_rick.dir/codegen
 
 # clean rule for target.

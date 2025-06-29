@@ -153,6 +153,30 @@ src/camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/camera.cpp.s
 .PHONY : src/camera.cpp.s
 
+src/elements.o: src/elements.cpp.o
+.PHONY : src/elements.o
+
+# target to build an object file
+src/elements.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/elements.cpp.o
+.PHONY : src/elements.cpp.o
+
+src/elements.i: src/elements.cpp.i
+.PHONY : src/elements.i
+
+# target to preprocess a source file
+src/elements.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/elements.cpp.i
+.PHONY : src/elements.cpp.i
+
+src/elements.s: src/elements.cpp.s
+.PHONY : src/elements.s
+
+# target to generate assembly for a file
+src/elements.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/elements.cpp.s
+.PHONY : src/elements.cpp.s
+
 src/global_var.o: src/global_var.cpp.o
 .PHONY : src/global_var.o
 
@@ -261,6 +285,9 @@ help:
 	@echo "... src/camera.o"
 	@echo "... src/camera.i"
 	@echo "... src/camera.s"
+	@echo "... src/elements.o"
+	@echo "... src/elements.i"
+	@echo "... src/elements.s"
 	@echo "... src/global_var.o"
 	@echo "... src/global_var.i"
 	@echo "... src/global_var.s"
