@@ -11,7 +11,7 @@ void CAM_INIT(){
         camera.projection = CAMERA_PERSPECTIVE;
         camera.up = {0.0f, 1.0f, 0.0f};
         camera.fovy = 45.0f;
-        DisableCursor(); // Hide and lock cursor
+       DisableCursor(); // Hide and lock cursor
 
 }
 

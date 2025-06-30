@@ -22,7 +22,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Debug
+CMAKE_BUILD_TYPE:STRING=
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -215,6 +215,12 @@ CMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
 //Value Computed by CMake
 ab_rick_BINARY_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build
 
@@ -225,13 +231,19 @@ ab_rick_IS_TOP_LEVEL:STATIC=ON
 ab_rick_SOURCE_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit
 
 //Value Computed by CMake
-raylib_cpp_example_BINARY_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build
+lua_BINARY_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/lua-5.1.5
 
 //Value Computed by CMake
-raylib_cpp_example_IS_TOP_LEVEL:STATIC=ON
+lua_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
-raylib_cpp_example_SOURCE_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit
+lua_SOURCE_DIR:STATIC=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5
+
+//Path to a library.
+pkgcfg_lib_LUA_lua5.3:FILEPATH=/usr/lib/liblua5.3.so
+
+//Path to a library.
+pkgcfg_lib_LUA_m:FILEPATH=/usr/lib/libm.so
 
 
 ########################
@@ -342,7 +354,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -387,4 +399,51 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v2.4.3()]
+LUA_CFLAGS:INTERNAL=-I/usr/include/lua5.3
+LUA_CFLAGS_I:INTERNAL=
+LUA_CFLAGS_OTHER:INTERNAL=
+LUA_FOUND:INTERNAL=1
+LUA_INCLUDEDIR:INTERNAL=/usr/include/lua5.3
+LUA_INCLUDE_DIRS:INTERNAL=/usr/include/lua5.3
+LUA_LDFLAGS:INTERNAL=-L/usr/lib;-llua5.3;-lm
+LUA_LDFLAGS_OTHER:INTERNAL=
+LUA_LIBDIR:INTERNAL=/usr/lib
+LUA_LIBRARIES:INTERNAL=lua5.3;m
+LUA_LIBRARY_DIRS:INTERNAL=/usr/lib
+LUA_LIBS:INTERNAL=
+LUA_LIBS_L:INTERNAL=
+LUA_LIBS_OTHER:INTERNAL=
+LUA_LIBS_PATHS:INTERNAL=
+LUA_MODULE_NAME:INTERNAL=lua5.3
+LUA_PREFIX:INTERNAL=/usr
+LUA_STATIC_CFLAGS:INTERNAL=-I/usr/include/lua5.3
+LUA_STATIC_CFLAGS_I:INTERNAL=
+LUA_STATIC_CFLAGS_OTHER:INTERNAL=
+LUA_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include/lua5.3
+LUA_STATIC_LDFLAGS:INTERNAL=-L/usr/lib;-llua5.3;-lm
+LUA_STATIC_LDFLAGS_OTHER:INTERNAL=
+LUA_STATIC_LIBDIR:INTERNAL=
+LUA_STATIC_LIBRARIES:INTERNAL=lua5.3;m
+LUA_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib
+LUA_STATIC_LIBS:INTERNAL=
+LUA_STATIC_LIBS_L:INTERNAL=
+LUA_STATIC_LIBS_OTHER:INTERNAL=
+LUA_STATIC_LIBS_PATHS:INTERNAL=
+LUA_VERSION:INTERNAL=5.3.6
+LUA_lua5.3_INCLUDEDIR:INTERNAL=
+LUA_lua5.3_LIBDIR:INTERNAL=
+LUA_lua5.3_PREFIX:INTERNAL=
+LUA_lua5.3_VERSION:INTERNAL=
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+__pkg_config_checked_LUA:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_LUA_lua5.3
+pkgcfg_lib_LUA_lua5.3-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_LUA_m
+pkgcfg_lib_LUA_m-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/usr/lib
 

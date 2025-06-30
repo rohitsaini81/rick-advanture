@@ -64,33 +64,55 @@ CMAKE_BINARY_DIR = /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/sc
 
 # The main recursive "all" target.
 all: CMakeFiles/ab_rick.dir/all
+all: lua-5.1.5/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/ab_rick.dir/codegen
+codegen: lua-5.1.5/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: lua-5.1.5/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/ab_rick.dir/clean
+clean: lua-5.1.5/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory lua-5.1.5
+
+# Recursive "all" directory target.
+lua-5.1.5/all: lua-5.1.5/CMakeFiles/lua_static.dir/all
+.PHONY : lua-5.1.5/all
+
+# Recursive "codegen" directory target.
+lua-5.1.5/codegen: lua-5.1.5/CMakeFiles/lua_static.dir/codegen
+.PHONY : lua-5.1.5/codegen
+
+# Recursive "preinstall" directory target.
+lua-5.1.5/preinstall:
+.PHONY : lua-5.1.5/preinstall
+
+# Recursive "clean" directory target.
+lua-5.1.5/clean: lua-5.1.5/CMakeFiles/lua_static.dir/clean
+.PHONY : lua-5.1.5/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/ab_rick.dir
 
 # All Build rule for target.
-CMakeFiles/ab_rick.dir/all:
+CMakeFiles/ab_rick.dir/all: lua-5.1.5/CMakeFiles/lua_static.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target ab_rick"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target ab_rick"
 .PHONY : CMakeFiles/ab_rick.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ab_rick.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 41
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ab_rick.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 0
 .PHONY : CMakeFiles/ab_rick.dir/rule
@@ -102,7 +124,7 @@ ab_rick: CMakeFiles/ab_rick.dir/rule
 # codegen rule for target.
 CMakeFiles/ab_rick.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Finished codegen for target ab_rick"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Finished codegen for target ab_rick"
 .PHONY : CMakeFiles/ab_rick.dir/codegen
 
 # clean rule for target.
@@ -111,12 +133,45 @@ CMakeFiles/ab_rick.dir/clean:
 .PHONY : CMakeFiles/ab_rick.dir/clean
 
 #=============================================================================
+# Target rules for target lua-5.1.5/CMakeFiles/lua_static.dir
+
+# All Build rule for target.
+lua-5.1.5/CMakeFiles/lua_static.dir/all:
+	$(MAKE) $(MAKESILENT) -f lua-5.1.5/CMakeFiles/lua_static.dir/build.make lua-5.1.5/CMakeFiles/lua_static.dir/depend
+	$(MAKE) $(MAKESILENT) -f lua-5.1.5/CMakeFiles/lua_static.dir/build.make lua-5.1.5/CMakeFiles/lua_static.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41 "Built target lua_static"
+.PHONY : lua-5.1.5/CMakeFiles/lua_static.dir/all
+
+# Build rule for subdir invocation for target.
+lua-5.1.5/CMakeFiles/lua_static.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 33
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lua-5.1.5/CMakeFiles/lua_static.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles 0
+.PHONY : lua-5.1.5/CMakeFiles/lua_static.dir/rule
+
+# Convenience name for target.
+lua_static: lua-5.1.5/CMakeFiles/lua_static.dir/rule
+.PHONY : lua_static
+
+# codegen rule for target.
+lua-5.1.5/CMakeFiles/lua_static.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f lua-5.1.5/CMakeFiles/lua_static.dir/build.make lua-5.1.5/CMakeFiles/lua_static.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles --progress-num=9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41 "Finished codegen for target lua_static"
+.PHONY : lua-5.1.5/CMakeFiles/lua_static.dir/codegen
+
+# clean rule for target.
+lua-5.1.5/CMakeFiles/lua_static.dir/clean:
+	$(MAKE) $(MAKESILENT) -f lua-5.1.5/CMakeFiles/lua_static.dir/build.make lua-5.1.5/CMakeFiles/lua_static.dir/clean
+.PHONY : lua-5.1.5/CMakeFiles/lua_static.dir/clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

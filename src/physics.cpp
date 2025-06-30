@@ -5,6 +5,8 @@
 #include "global_var.h"
 #include "camera.h"
 #include "objects.h"
+#include "script.h"
+#include <lua.h>
 // Bullet globals
 btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
 btBroadphaseInterface* broadphase = nullptr;
@@ -91,6 +93,12 @@ dynamicsWorld->addRigidBody(playerBody);
 
 
 CREATE_ELEM();
+CREATE_ELEM();
+
+
+
+
+
 
 }
 
@@ -130,19 +138,20 @@ void render() {
 
 
 
-   
-    for (Elements* elem : elementList) {
+   for(int i=0;i<rigidBodies.size();i++){
         btTransform trans;
-        if (elem->body->getMotionState()) {
-            elem->body->getMotionState()->getWorldTransform(trans);
+        btRigidBody* body = rigidBodies[i];
+        if (body->getMotionState()) {
+            body->getMotionState()->getWorldTransform(trans);
         } else {
-            trans = elem->body->getCenterOfMassTransform();
+            trans = body->getCenterOfMassTransform();
         }
+        Color randomColor = GetRandomColor();
     
         btVector3 pos = trans.getOrigin();
-        DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, RED);
+        DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, randomColor);
         std::cout << "Position: " << pos.getX() << ", " << pos.getY() << ", " << pos.getZ() << std::endl;
-        std::cout << "Velocity: " << elem->body->getLinearVelocity().getY() << std::endl;
+        // std::cout << "Velocity: " << elem->body->getLinearVelocity().getY() << std::endl;
     }
     
 
@@ -161,7 +170,9 @@ void render() {
 
 
 
-
+    // if (IsKeyPressed(KEY_R)) {
+    //     LUA_Update();
+    // }            DrawRectangle(200, 150, 400, 300, g_scriptColor);
 
 
 

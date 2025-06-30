@@ -8,7 +8,9 @@ ab_rick: \
   CMakeFiles/ab_rick.dir/src/camera.cpp.o \
   CMakeFiles/ab_rick.dir/src/objects.cpp.o \
   CMakeFiles/ab_rick.dir/src/elements.cpp.o \
-  /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a \
+  CMakeFiles/ab_rick.dir/src/script/script.cpp.o \
+  /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-build/raylib/libraylib.a \
+  lua-5.1.5/liblua_static.a \
   /usr/local/lib/libBulletDynamics.so \
   /usr/local/lib/libBulletCollision.so \
   /usr/local/lib/libLinearMath.so \
@@ -17,6 +19,7 @@ ab_rick: \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/librt.a \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libGL.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libX11.so \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libm.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libm.so \
@@ -73,7 +76,11 @@ CMakeFiles/ab_rick.dir/src/objects.cpp.o:
 
 CMakeFiles/ab_rick.dir/src/elements.cpp.o:
 
-/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp//build/_deps/raylib-build/raylib/libraylib.a:
+CMakeFiles/ab_rick.dir/src/script/script.cpp.o:
+
+/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-build/raylib/libraylib.a:
+
+lua-5.1.5/liblua_static.a:
 
 /usr/local/lib/libBulletDynamics.so:
 
@@ -90,6 +97,8 @@ CMakeFiles/ab_rick.dir/src/elements.cpp.o:
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libGL.so:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libX11.so:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/../../../../lib/libstdc++.so:
 

@@ -301,4 +301,42 @@ CMakeFiles/ab_rick.dir/src/main.cpp.o: \
  /usr/include/c++/15.1.1/bits/ostream.tcc /usr/include/c++/15.1.1/istream \
  /usr/include/c++/15.1.1/bits/istream.tcc \
  /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.h \
- /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/camera.h
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/camera.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5/src/lua.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5/src/luaconf.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include/limits.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include/syslimits.h \
+ /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
+ /usr/include/bits/uio_lim.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5/src/lualib.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5/src/lua.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/lua-5.1.5/src/lauxlib.h \
+ /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/script/script.h \
+ /usr/include/c++/15.1.1/filesystem /usr/include/c++/15.1.1/bits/fs_fwd.h \
+ /usr/include/c++/15.1.1/cstdint \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/15.1.1/include/stdint.h \
+ /usr/include/stdint.h /usr/include/bits/stdint-uintn.h \
+ /usr/include/bits/stdint-least.h /usr/include/c++/15.1.1/bits/chrono.h \
+ /usr/include/c++/15.1.1/ratio /usr/include/c++/15.1.1/ctime \
+ /usr/include/c++/15.1.1/bits/parse_numbers.h \
+ /usr/include/c++/15.1.1/bits/fs_path.h /usr/include/c++/15.1.1/locale \
+ /usr/include/c++/15.1.1/bits/locale_facets_nonio.h \
+ /usr/include/c++/15.1.1/x86_64-pc-linux-gnu/bits/time_members.h \
+ /usr/include/c++/15.1.1/x86_64-pc-linux-gnu/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/15.1.1/bits/codecvt.h \
+ /usr/include/c++/15.1.1/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/15.1.1/bits/locale_conv.h \
+ /usr/include/c++/15.1.1/iomanip \
+ /usr/include/c++/15.1.1/bits/quoted_string.h \
+ /usr/include/c++/15.1.1/sstream /usr/include/c++/15.1.1/bits/sstream.tcc \
+ /usr/include/c++/15.1.1/codecvt \
+ /usr/include/c++/15.1.1/ext/concurrence.h \
+ /usr/include/c++/15.1.1/bits/shared_ptr.h \
+ /usr/include/c++/15.1.1/bits/shared_ptr_base.h \
+ /usr/include/c++/15.1.1/bits/allocated_ptr.h \
+ /usr/include/c++/15.1.1/bits/unique_ptr.h \
+ /usr/include/c++/15.1.1/ext/aligned_buffer.h \
+ /usr/include/c++/15.1.1/bits/fs_dir.h \
+ /usr/include/c++/15.1.1/bits/fs_ops.h

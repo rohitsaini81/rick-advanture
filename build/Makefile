@@ -113,6 +113,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
@@ -128,6 +129,19 @@ ab_rick: cmake_check_build_system
 ab_rick/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/build
 .PHONY : ab_rick/fast
+
+#=============================================================================
+# Target rules for targets named lua_static
+
+# Build rule for target.
+lua_static: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lua_static
+.PHONY : lua_static
+
+# fast build rule for target.
+lua_static/fast:
+	$(MAKE) $(MAKESILENT) -f lua-5.1.5/CMakeFiles/lua_static.dir/build.make lua-5.1.5/CMakeFiles/lua_static.dir/build
+.PHONY : lua_static/fast
 
 src/camera.o: src/camera.cpp.o
 .PHONY : src/camera.o
@@ -273,6 +287,30 @@ src/physics.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/physics.cpp.s
 .PHONY : src/physics.cpp.s
 
+src/script/script.o: src/script/script.cpp.o
+.PHONY : src/script/script.o
+
+# target to build an object file
+src/script/script.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/script/script.cpp.o
+.PHONY : src/script/script.cpp.o
+
+src/script/script.i: src/script/script.cpp.i
+.PHONY : src/script/script.i
+
+# target to preprocess a source file
+src/script/script.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/script/script.cpp.i
+.PHONY : src/script/script.cpp.i
+
+src/script/script.s: src/script/script.cpp.s
+.PHONY : src/script/script.s
+
+# target to generate assembly for a file
+src/script/script.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/script/script.cpp.s
+.PHONY : src/script/script.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -282,6 +320,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ab_rick"
+	@echo "... lua_static"
 	@echo "... src/camera.o"
 	@echo "... src/camera.i"
 	@echo "... src/camera.s"
@@ -300,6 +339,9 @@ help:
 	@echo "... src/physics.o"
 	@echo "... src/physics.i"
 	@echo "... src/physics.s"
+	@echo "... src/script/script.o"
+	@echo "... src/script/script.i"
+	@echo "... src/script/script.s"
 .PHONY : help
 
 
@@ -311,6 +353,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

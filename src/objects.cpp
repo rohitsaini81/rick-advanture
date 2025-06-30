@@ -3,28 +3,33 @@
 #include "physics.h" // make sure dynamicsWorld is visible
 #include "iostream"
 #include "elements.h" 
+#include "LinearMath/btAlignedObjectArray.h" 
 Elements* objectal[4]; // array of pointers
 // std::vector<Elements> elementList;
 std::vector<Elements*> elementList;
+std::vector<btRigidBody*> rigidBodyList;
+btAlignedObjectArray<btRigidBody*> rigidBodies;
 
 void CREATE_ELEM() {
     try {
         if (dynamicsWorld) {
             std::cout << "fine working ?? " << std::endl;
-            Elements box(ElementType::BOX, dynamicsWorld);
-            std::cout << "Note------------------------" << box.mass << std::endl;
+            Elements* newElem = new Elements(ElementType::BOX, dynamicsWorld);
+            std::cout << "Note------------------------" << newElem->mass << std::endl;
             std::cout << "dynamicsWorld ptr: " << dynamicsWorld << std::endl;
-            std::cout << "box.body ptr: " << box.body << std::endl;
+            std::cout << "newElem.body ptr: " << newElem->body << std::endl;
 
-            if (dynamicsWorld && box.body) {
+            if (dynamicsWorld && newElem->body) {
                 std::cout << "About to add rigid body\n";
-                dynamicsWorld->addRigidBody(box.body);
+                dynamicsWorld->addRigidBody(newElem->body);
+                rigidBodies.push_back(newElem->body);
 
 
         
 
-                Elements* newElem = new Elements(ElementType::BOX, dynamicsWorld);
-                elementList.push_back(newElem);
+                // objectal[0]=newElem;
+                // rigidBodyList.push_back(newElem->body);
+                // elementList.push_back(newElem);
                 
                 
                 
@@ -38,4 +43,18 @@ void CREATE_ELEM() {
     } catch (...) {
         std::cerr << "Caught unknown exception" << std::endl;
     }
+}
+
+
+
+
+
+Color GetRandomColor()
+{
+    return (Color){
+        (unsigned char)(rand() % 256),  // R
+        (unsigned char)(rand() % 256),  // G
+        (unsigned char)(rand() % 256),  // B
+        255                             // A (fully opaque)
+    };
 }
