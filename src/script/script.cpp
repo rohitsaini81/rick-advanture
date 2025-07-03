@@ -88,11 +88,22 @@ void load_config(const char* filename) {
     }
     lua_pop(L, 1);
 
+
+    // playerMoveSpeed
+
     //test
     lua_getglobal(L,"health");
     if(lua_isnumber(L,-1)){
         int healthh = lua_tointeger(L,-1);
         health = healthh;
+    }
+    lua_pop(L,1);
+
+
+    lua_getglobal(L,"playerMovementSpeed");
+    if(lua_isnumber(L,-1)){
+        float pmspeed = lua_tointeger(L,-1);
+        playerMoveSpeed = pmspeed;
     }
     lua_pop(L,1);
 

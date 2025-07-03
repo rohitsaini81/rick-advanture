@@ -2,6 +2,7 @@ title = "My Rick and Morty"
 width = 800
 height = 600
 health = 1400
+playerMovementSpeed = 50
 fullscreen = false
 
 return {

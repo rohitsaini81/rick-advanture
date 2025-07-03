@@ -263,6 +263,30 @@ src/objects.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/objects.cpp.s
 .PHONY : src/objects.cpp.s
 
+src/person.o: src/person.cpp.o
+.PHONY : src/person.o
+
+# target to build an object file
+src/person.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/person.cpp.o
+.PHONY : src/person.cpp.o
+
+src/person.i: src/person.cpp.i
+.PHONY : src/person.i
+
+# target to preprocess a source file
+src/person.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/person.cpp.i
+.PHONY : src/person.cpp.i
+
+src/person.s: src/person.cpp.s
+.PHONY : src/person.s
+
+# target to generate assembly for a file
+src/person.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ab_rick.dir/build.make CMakeFiles/ab_rick.dir/src/person.cpp.s
+.PHONY : src/person.cpp.s
+
 src/physics.o: src/physics.cpp.o
 .PHONY : src/physics.o
 
@@ -336,6 +360,9 @@ help:
 	@echo "... src/objects.o"
 	@echo "... src/objects.i"
 	@echo "... src/objects.s"
+	@echo "... src/person.o"
+	@echo "... src/person.i"
+	@echo "... src/person.s"
 	@echo "... src/physics.o"
 	@echo "... src/physics.i"
 	@echo "... src/physics.s"

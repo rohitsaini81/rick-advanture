@@ -1,0 +1,47 @@
+# === CMake & build ===
+/build/
+/cmake-build-debug/
+/CMakeFiles/
+/Makefile
+/CMakeCache.txt
+/install_manifest.txt
+/DartConfiguration.tcl
+/Testing/
+/CTestTestfile.cmake
+
+# === Bullet3 build artifacts ===
+/bullet3/build/
+/bullet3/bin/
+/bullet3/lib/
+/bullet3/CMakeFiles/
+/bullet3/CMakeCache.txt
+
+# === Lua binaries and build ===
+/lua-5.1.5/src/*.o
+/lua-5.1.5/src/lua
+/lua-5.1.5/src/luac
+
+# === Editor/IDE ===
+.vscode/
+/.idea/
+/*.code-workspace
+
+# === System files ===
+*.DS_Store
+*.log
+*.swp
+*~
+*.bak
+
+# === Compiled binaries ===
+*.out
+*.a
+*.so
+*.dll
+*.exe
+*.obj
+*.o
+
+# === Optional ===
+*.user
+*.tmp

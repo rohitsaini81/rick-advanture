@@ -44,7 +44,8 @@ add_executable(${PROJECT_NAME}
     src/objects.cpp
     src/elements.cpp
     src/script/script.cpp
-)
+    src/person.cpp
+    )
 
 # ---- Linking ----
 target_link_libraries(${PROJECT_NAME}

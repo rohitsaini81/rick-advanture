@@ -9,6 +9,7 @@ ab_rick: \
   CMakeFiles/ab_rick.dir/src/objects.cpp.o \
   CMakeFiles/ab_rick.dir/src/elements.cpp.o \
   CMakeFiles/ab_rick.dir/src/script/script.cpp.o \
+  CMakeFiles/ab_rick.dir/src/person.cpp.o \
   /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-build/raylib/libraylib.a \
   lua-5.1.5/liblua_static.a \
   /usr/local/lib/libBulletDynamics.so \
@@ -77,6 +78,8 @@ CMakeFiles/ab_rick.dir/src/objects.cpp.o:
 CMakeFiles/ab_rick.dir/src/elements.cpp.o:
 
 CMakeFiles/ab_rick.dir/src/script/script.cpp.o:
+
+CMakeFiles/ab_rick.dir/src/person.cpp.o:
 
 /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/build/_deps/raylib-build/raylib/libraylib.a:
 

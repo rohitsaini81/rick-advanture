@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/global_var.cpp" "CMakeFiles/ab_rick.dir/src/global_var.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/global_var.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/main.cpp" "CMakeFiles/ab_rick.dir/src/main.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/main.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/objects.cpp" "CMakeFiles/ab_rick.dir/src/objects.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/objects.cpp.o.d"
+  "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/person.cpp" "CMakeFiles/ab_rick.dir/src/person.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/person.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/physics.cpp" "CMakeFiles/ab_rick.dir/src/physics.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/physics.cpp.o.d"
   "/run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/ArchLinux/work/raylib-cpp/rohit/src/script/script.cpp" "CMakeFiles/ab_rick.dir/src/script/script.cpp.o" "gcc" "CMakeFiles/ab_rick.dir/src/script/script.cpp.o.d"
   "" "ab_rick" "gcc" "CMakeFiles/ab_rick.dir/link.d"

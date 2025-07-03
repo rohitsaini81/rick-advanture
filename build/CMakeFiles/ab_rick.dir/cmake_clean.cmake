@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ab_rick.dir/src/main.cpp.o.d"
   "CMakeFiles/ab_rick.dir/src/objects.cpp.o"
   "CMakeFiles/ab_rick.dir/src/objects.cpp.o.d"
+  "CMakeFiles/ab_rick.dir/src/person.cpp.o"
+  "CMakeFiles/ab_rick.dir/src/person.cpp.o.d"
   "CMakeFiles/ab_rick.dir/src/physics.cpp.o"
   "CMakeFiles/ab_rick.dir/src/physics.cpp.o.d"
   "CMakeFiles/ab_rick.dir/src/script/script.cpp.o"

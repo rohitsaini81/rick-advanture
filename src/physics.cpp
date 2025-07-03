@@ -7,6 +7,7 @@
 #include "objects.h"
 #include "script.h"
 #include <lua.h>
+#include "person.h"
 // Bullet globals
 btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
 btBroadphaseInterface* broadphase = nullptr;
@@ -94,6 +95,10 @@ dynamicsWorld->addRigidBody(playerBody);
 
 CREATE_ELEM();
 CREATE_ELEM();
+Person* PersonA = new Person({getPlayerX(),getPlayerY(),getPlayerY()},PersonType::ENEMY);
+
+dynamicsWorld->addRigidBody(PersonA->body);
+                rigidBodies.push_back(PersonA->body);
 
 
 
@@ -150,7 +155,7 @@ void render() {
     
         btVector3 pos = trans.getOrigin();
         DrawCube({pos.getX(), pos.getY(), pos.getZ()}, 2.0f, 2.0f, 2.0f, randomColor);
-        std::cout << "Position: " << pos.getX() << ", " << pos.getY() << ", " << pos.getZ() << std::endl;
+        // std::cout << "Position: " << pos.getX() << ", " << pos.getY() << ", " << pos.getZ() << std::endl;
         // std::cout << "Velocity: " << elem->body->getLinearVelocity().getY() << std::endl;
     }
     
@@ -191,7 +196,7 @@ btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(
     Vector3 startPos = { bulletPos.getX(), bulletPos.getY() - halfHeight, bulletPos.getZ() };
     Vector3 endPos   = { bulletPos.getX(), bulletPos.getY() + halfHeight, bulletPos.getZ() };
     
-    DrawCapsule(startPos, endPos, 0.2f, 16, 8, RED);
+    // DrawCapsule(startPos, endPos, 0.2f, 16, 8, RED);
     
 }
 //this if should be moved to previews one
@@ -221,7 +226,7 @@ if (IsKeyDown(KEY_A)) moveDir -= btVector3(right.x, 0, right.z);
 // Keep vertical velocity
 btVector3 currentVel = playerBody->getLinearVelocity();
 if (moveDir.length2() > 0.0001f) {
-    moveDir = moveDir.normalized() * 5.0f;
+    moveDir = moveDir.normalized() * playerMoveSpeed;
 } else {
     moveDir = btVector3(0, 0, 0);
 }
