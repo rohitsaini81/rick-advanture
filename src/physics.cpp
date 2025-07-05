@@ -93,8 +93,10 @@ playerBody->setActivationState(DISABLE_DEACTIVATION);
 dynamicsWorld->addRigidBody(playerBody);
 
 
-CREATE_ELEM();
-CREATE_ELEM();
+for(int i =0;i<10;i++){
+    CREATE_ELEM();
+
+}
 PersonA = new Person({getPlayerX(),getPlayerY(),getPlayerY()},PersonType::ENEMY);
 
 dynamicsWorld->addRigidBody(PersonA->body);
@@ -104,6 +106,13 @@ dynamicsWorld->addRigidBody(PersonA->body);
 
 
 
+
+}
+void rayCast(Vector3 to, Vector3 from, btCollisionWorld::RayResultCallback& callback){
+// lastRayFrom.set(from).sub(0f,5f,0f);
+btVector3 btFrom(from.x, from.y, from.z);
+btVector3 btTo(to.x, to.y, to.z);
+dynamicsWorld->rayTest(btFrom, btTo, callback);
 
 }
 
@@ -130,12 +139,65 @@ void CleanupPhysics() {
 }
 
 
+void DrawRayLine(Vector3 from, Vector3 to, Color color){
+    DrawLine3D(from, to, color);
+}
+
+
+void testRayCast()
+{
+    Vector3 from = { 0.0f, 1.0f, 0.0f }; // Ray start
+    Vector3 to = { 0.0f, 1.0f, 10.0f };  // Ray end
+    // Use Bullet's default callback
+
+
+    DrawRayLine(from, to);
+
+    btCollisionWorld::ClosestRayResultCallback rayCallback(
+        btVector3(from.x, from.y, from.z),
+        btVector3(to.x, to.y, to.z)
+    );
+
+    dynamicsWorld->rayTest(btVector3(from.x, from.y, from.z), btVector3(to.x, to.y, to.z), rayCallback);
+
+    if (rayCallback.hasHit()) {
+        btVector3 hitPoint = rayCallback.m_hitPointWorld;
+        std::cout << "Hit at: "
+                  << hitPoint.getX() << ", "
+                  << hitPoint.getY() << ", "
+                  << hitPoint.getZ() << std::endl;
+    } else {
+        std::cout << "No hit detected.\n";
+    }
+
+    if (rayCallback.hasHit()) {
+        btCollisionObject* hitObject = const_cast<btCollisionObject*>(rayCallback.m_collisionObject);
+    
+        // Example: check if it's your box
+        if (hitObject == boxBody) {
+            std::cout << "Hit the box!\n";
+        } else if (hitObject == playerBody) {
+            std::cout << "Hit the player (yourself).\n";
+        } else if (hitObject == PersonA->body) {
+            std::cout << "Hit PersonA.\n";
+        } else {
+            std::cout << "Hit unknown object.\n";
+        }
+    }
+    
+
+
+   
+
+
+}
 
 
 
 
 
-void render(float deltaTime) {
+
+    void render(float deltaTime) {
     if (dynamicsWorld) {
         dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
     }
@@ -196,6 +258,8 @@ btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(
     
     Vector3 startPos = { bulletPos.getX(), bulletPos.getY() - halfHeight, bulletPos.getZ() };
     Vector3 endPos   = { bulletPos.getX(), bulletPos.getY() + halfHeight, bulletPos.getZ() };
+
+    testRayCast();
 
     // btCollisionWorld::convexSweepTest()
 }

@@ -63,7 +63,7 @@ void Person::Update(float deltaTime) {
     }
 
     if(Person::GetTypeName()=="Enemy"){
-        std::cout<<"enemy is ahead\n";
+        // std::cout<<"enemy is ahead\n";
     }
     // AI or behavior logic could go here
 }
