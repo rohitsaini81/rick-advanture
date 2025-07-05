@@ -15,4 +15,5 @@ extern std::vector<btRigidBody*> rigidBodyList;
 extern btAlignedObjectArray<btRigidBody*> rigidBodies;
 
 extern Color GetRandomColor();
+std::vector<btRigidBody*> FindObjectsInRange(btDynamicsWorld* world, btVector3 center, float radius);
 #endif

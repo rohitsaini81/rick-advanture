@@ -62,6 +62,9 @@ void Person::Update(float deltaTime) {
         position = { (float)btPos.getX(), (float)btPos.getY(), (float)btPos.getZ() };
     }
 
+    if(Person::GetTypeName()=="Enemy"){
+        std::cout<<"enemy is ahead\n";
+    }
     // AI or behavior logic could go here
 }
 
@@ -76,8 +79,11 @@ void Person::Render() const {
 
     // Draw as a capsule or cylinder (fake capsule with two spheres)
     DrawCylinder(position, 0.3f, 0.3f, 1.2f, 12, color);
-        DrawSphere({ position.x, position.y + 0.6f, position.z }, 0.3f, color);
+    DrawSphere({ position.x, position.y + 0.6f, position.z }, 0.3f, color);
     DrawSphere({ position.x, position.y - 0.6f, position.z }, 0.3f, color);
+    float detectionRadius = 1.0f;
+DrawSphereWires(position, detectionRadius, 16, 16, RED);
+DrawCircle3D(position, detectionRadius, {0, 1, 0}, 90.0f, DARKGREEN);
 }
 
 Vector3 Person::GetPosition() const {

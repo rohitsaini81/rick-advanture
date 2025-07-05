@@ -173,7 +173,7 @@ lights[0] = CreateLight(
 
 
 
-      render();
+      render(delta);
 
 
 

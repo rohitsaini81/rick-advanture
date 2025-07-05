@@ -2466,6 +2466,7 @@ ab_rick: /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/Ar
   CMakeFiles/ab_rick.dir/src/global_var.cpp.o \
   CMakeFiles/ab_rick.dir/src/main.cpp.o \
   CMakeFiles/ab_rick.dir/src/objects.cpp.o \
+  CMakeFiles/ab_rick.dir/src/person.cpp.o \
   CMakeFiles/ab_rick.dir/src/physics.cpp.o \
   CMakeFiles/ab_rick.dir/src/script/script.cpp.o \
   lua-5.1.5/liblua_static.a
@@ -2474,6 +2475,8 @@ ab_rick: /run/media/rohit/8b5b9054-ef1c-4785-aa10-f6a2608b67c8/home/scientist/Ar
 lua-5.1.5/liblua_static.a:
 
 CMakeFiles/ab_rick.dir/src/script/script.cpp.o:
+
+CMakeFiles/ab_rick.dir/src/person.cpp.o:
 
 CMakeFiles/ab_rick.dir/src/objects.cpp.o:
 

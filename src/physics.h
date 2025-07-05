@@ -30,7 +30,7 @@ extern btRigidBody* playerBody;
 void InitPhysics();
 void UpdatePhysics(float deltaTime);
 void CleanupPhysics();
-void render();
+void render(float deltaTime);
 
 // Player position tracking
 float getPlayerX();

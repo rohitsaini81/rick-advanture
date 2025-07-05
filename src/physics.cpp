@@ -38,7 +38,7 @@ btRigidBody* playerBody = nullptr;
 float playerX = 0.0f;
 float playerY = 0.0f;
 float playerZ = 0.0f;
-
+Person* PersonA =nullptr;
 void InitPhysics() {
     // Bullet physics world setup
     broadphase = new btDbvtBroadphase();
@@ -95,10 +95,10 @@ dynamicsWorld->addRigidBody(playerBody);
 
 CREATE_ELEM();
 CREATE_ELEM();
-Person* PersonA = new Person({getPlayerX(),getPlayerY(),getPlayerY()},PersonType::ENEMY);
+PersonA = new Person({getPlayerX(),getPlayerY(),getPlayerY()},PersonType::ENEMY);
 
 dynamicsWorld->addRigidBody(PersonA->body);
-                rigidBodies.push_back(PersonA->body);
+// rigidBodies.push_back(PersonA->body);
 
 
 
@@ -135,13 +135,14 @@ void CleanupPhysics() {
 
 
 
-void render() {
+void render(float deltaTime) {
     if (dynamicsWorld) {
         dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
     }
 
 
-
+    PersonA->Update(deltaTime);
+    PersonA->Render();
 
    for(int i=0;i<rigidBodies.size();i++){
         btTransform trans;
@@ -195,9 +196,8 @@ btVector3 bulletPos = trans.getOrigin();setPlayerY(bulletPos.getY());setPlayerX(
     
     Vector3 startPos = { bulletPos.getX(), bulletPos.getY() - halfHeight, bulletPos.getZ() };
     Vector3 endPos   = { bulletPos.getX(), bulletPos.getY() + halfHeight, bulletPos.getZ() };
-    
-    // DrawCapsule(startPos, endPos, 0.2f, 16, 8, RED);
-    
+
+    // btCollisionWorld::convexSweepTest()
 }
 //this if should be moved to previews one
 //movement and jump controls
