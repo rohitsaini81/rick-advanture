@@ -15,7 +15,7 @@ Player::Player(btDiscreteDynamicsWorld* world, const std::string& modelPath, con
     std::cout << "Player constructed!" << std::endl;
 
     animCount = 0;
-    ModelAnimation* anims = LoadModelAnimations(modelPath.c_str(), &animCount);
+    anims = LoadModelAnimations(modelPath.c_str(), &animCount);
     float animFrameCounter = 0.0f;
 
 
