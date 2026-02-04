@@ -53,6 +53,7 @@ include_directories(externals/imgui)
 include_directories(externals/lua-5.1.5)
 
 
+
     # Add sources
 set(IMGUI_SOURCES
    ./externals/imgui/imgui.cpp
@@ -82,6 +83,10 @@ include_directories(
   #  /usr/local/lib
 #)
 
+
+find_package(Threads REQUIRED)
+add_definitions(-DOZZ_BUILD_FUSED)
+
 # ---- Executable ----
 add_executable(${PROJECT_NAME}
     src/main.cpp
@@ -104,7 +109,25 @@ add_executable(${PROJECT_NAME}
 
     src/video_player/VideoPlayer.cpp
     ${IMGUI_SOURCES}
+
+
+
+        # ---- OZZ fused sources ----
+    externals/ozz-animation/build/src_fused/ozz_animation.cc
+    externals/ozz-animation/build/src_fused/ozz_base.cc
+    externals/ozz-animation/build/src_fused/ozz_geometry.cc
+
+
     )
+
+
+# ---- OZZ include path (important for fused build) ----
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation/include
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation
+)
+
 
 # ---- Linking ----
 target_link_libraries(${PROJECT_NAME}
