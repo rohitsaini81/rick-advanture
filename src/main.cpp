@@ -1,215 +1,164 @@
 #include "raylib.h"
-#include <ozz/base/maths/float4x4.h>
-#include <ozz/animation/runtime/skeleton.h>
-#include <ozz/animation/runtime/animation.h>
-#include <ozz/animation/runtime/sampling_job.h>
-#include <ozz/animation/runtime/local_to_model_job.h>
-
-#include <ozz/base/io/archive.h>
-#include <ozz/base/io/stream.h>
-
+#include <btBulletDynamicsCommon.h>
 #include <vector>
-#include <cmath>
-#include <cstdio>
-
-
-
 
 #include "3dObjects/objects.h"
 #include "Controls/camera.h"
 #include "ETC/global_var.h"
-// ------------------------------------------------------------
-// Load OZZ Skeleton
-// ------------------------------------------------------------
-bool LoadSkeleton(const char* path, ozz::animation::Skeleton& skeleton)
-{
-    ozz::io::File file(path, "rb");
-    if (!file.opened())
-    {
-        printf("Failed to open skeleton: %s\n", path);
-        return false;
-    }
+#include "ozz/skeleton_animation.h"
+#include "ozz/skeleton_renderer.h"
+#include "ozz/physics_character.h"
 
-    ozz::io::IArchive archive(&file);
-    archive >> skeleton;
-
-    return true;
-}
-
-// ------------------------------------------------------------
-// Load OZZ Animation
-// ------------------------------------------------------------
-bool LoadAnimation(const char* path, ozz::animation::Animation& anim)
-{
-    ozz::io::File file(path, "rb");
-    if (!file.opened())
-    {
-        printf("Failed to open animation: %s\n", path);
-        return false;
-    }
-
-    ozz::io::IArchive archive(&file);
-    archive >> anim;
-
-    return true;
-}
-
-// ------------------------------------------------------------
-// Extract translation from matrix
-// ------------------------------------------------------------
-Vector3 GetPosition(const ozz::math::Float4x4& m)
-{
-    return {
-        m.cols[3].x,
-        m.cols[3].y,
-        m.cols[3].z
-    };
-}
-
-// ------------------------------------------------------------
-// Draw skeleton using raylib
-// ------------------------------------------------------------
-void DrawSkeleton(
-    const ozz::animation::Skeleton& skel,
-    const std::vector<ozz::math::Float4x4>& models)
-{
-    const auto& parents = skel.joint_parents();
-
-    for (int i = 0; i < skel.num_joints(); i++)
-    {
-        int parent = parents[i];
-        if (parent < 0) continue;
-
-        Vector3 p = GetPosition(models[i]);
-        Vector3 pp = GetPosition(models[parent]);
-
-        DrawLine3D(pp, p, RED);
-        DrawSphere(p, 0.02f, BLUE);
-    }
-}
-
-// ------------------------------------------------------------
 // Main
-// ------------------------------------------------------------
-int main()
-{
-        std::string modelPath2 = project_dir + "/assets/rick/rick.glb";
+int main() {
+    // Initialize project directory and globals
+    INIT_BEFORE();
 
     const int screenWidth = 1280;
     const int screenHeight = 800;
 
-    raylib::Window window(
-        screenWidth,
-        screenHeight,
-        "raylib + ozz-animation Test"
-    );
-
+    InitWindow(screenWidth, screenHeight, "Skeleton Animation + Physics");
     SetTargetFPS(60);
 
-    // ---------------- Camera ----------------
-    raylib::Camera3D camera;
-    camera.position = { 2.0f, 2.0f, 4.0f };
-    camera.target = { 0.0f, 1.0f, 0.0f };
-    camera.up = { 0.0f, 1.0f, 0.0f };
+    // ---- Setup Camera ----
+    Camera3D camera = {0};
+    camera.position = {3.0f, 2.0f, 3.0f};
+    camera.target = {0.0f, 1.0f, 0.0f};
+    camera.up = {0.0f, 1.0f, 0.0f};
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    // ---------------- Load OZZ ----------------
+    // ---- Setup Physics World ----
+    btDefaultCollisionConfiguration* collision_config =
+        new btDefaultCollisionConfiguration();
+    btCollisionDispatcher* dispatcher =
+        new btCollisionDispatcher(collision_config);
+    btBroadphaseInterface* broadphase =
+        new btDbvtBroadphase();
+    btSequentialImpulseConstraintSolver* solver =
+        new btSequentialImpulseConstraintSolver();
 
-    ozz::animation::Skeleton skeleton;
-    ozz::animation::Animation animation;
+    btDynamicsWorld* world =
+        new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config);
+    world->setGravity(btVector3(0, -9.8f, 0));
 
-    if (!LoadSkeleton(
-            (project_dir + "/assets/ozz/animation.ozz").c_str(),
-    animation
-    ))
+    // Create ground
+    btCollisionShape* ground_shape = new btBoxShape(btVector3(50, 0.5f, 50));
+    btDefaultMotionState* ground_motion = new btDefaultMotionState(
+        btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+    btRigidBody::btRigidBodyConstructionInfo ground_info(0, ground_motion, ground_shape);
+    btRigidBody* ground = new btRigidBody(ground_info);
+    world->addRigidBody(ground);
+
+    // ---- Load Skeleton Animation ----
+    SkeletonAnimation anim;
+
+    std::string skeleton_path = project_dir + "/assets/ozz/skeleton.ozz";
+    std::string animation_path = project_dir + "/assets/ozz/animation.ozz";
+
+    if (!anim.LoadSkeleton(skeleton_path.c_str())) {
         return 1;
-
-    if (!LoadAnimation(
-        
-            (project_dir + "/assets/ozz/animation.ozz").c_str(),
-    animation)
-    )
+    }
+    if (!anim.LoadAnimation(animation_path.c_str())) {
         return 1;
+    }
 
-    printf("Skeleton joints: %d\n", skeleton.num_joints());
-    printf("Animation duration: %.2f\n", animation.duration());
+    anim.Play();
 
-    // ---------------- Buffers ----------------
+    // ---- Setup Skeleton Renderer ----
+    SkeletonRenderer renderer;
 
-    std::vector<ozz::math::SoaTransform> locals;
-    std::vector<ozz::math::Float4x4> models;
+    // ---- Setup Physics Character ----
+    PhysicsCharacter character(world);
+    character.InitializeFromSkeleton(anim.GetSkeleton());
 
-    locals.resize(skeleton.num_soa_joints());
-    models.resize(skeleton.num_joints());
-
-    // Sampling context
-    ozz::animation::SamplingJob::Context context;
-    context.Resize(skeleton.num_joints());
-
-    // Jobs
-    ozz::animation::SamplingJob sampling;
-    ozz::animation::LocalToModelJob ltm;
-
-    sampling.animation = &animation;
-    sampling.context = &context;
-    sampling.output = make_span(locals);
-
-    ltm.skeleton = &skeleton;
-    ltm.input = make_span(locals);
-    ltm.output = make_span(models);
-
-    // ---------------- Time ----------------
-
-    float time = 0.0f;
-
-    // ---------------- Main Loop ----------------
-
-    while (!window.ShouldClose())
-    {
+    // ---- Main Loop ----
+    while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        time += dt;
 
-        // Loop animation
-        float ratio = fmod(time, animation.duration())
-                      / animation.duration();
+        // Update animation
+        anim.Update(dt);
 
-        // Sample animation
-        sampling.ratio = ratio;
-        sampling.Run();
+        // Update physics character from skeleton
+        character.UpdateFromSkeleton(anim.GetModelMatrices());
 
-        // Local -> Model
-        ltm.Run();
+        // Simulate physics
+        world->stepSimulation(dt, 10);
 
-        // Camera orbit
-        if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON))
-        {
+        // Camera orbit control
+        if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
             Vector2 delta = GetMouseDelta();
-
             camera.position.x += delta.x * 0.01f;
             camera.position.z += delta.y * 0.01f;
         }
 
-        // ---------------- Render ----------------
+        // Keyboard controls for animation
+        if (IsKeyPressed(KEY_SPACE)) {
+            anim.IsPlaying() ? anim.Stop() : anim.Play();
+        }
+        if (IsKeyPressed(KEY_R)) {
+            anim.Reset();
+        }
 
+        // Apply force with arrow keys
+        if (IsKeyPressed(KEY_UP)) {
+            character.ApplyImpulse({0, 0, -1}, 5.0f);
+        }
+        if (IsKeyPressed(KEY_DOWN)) {
+            character.ApplyImpulse({0, 0, 1}, 5.0f);
+        }
+        if (IsKeyPressed(KEY_LEFT)) {
+            character.ApplyImpulse({-1, 0, 0}, 5.0f);
+        }
+        if (IsKeyPressed(KEY_RIGHT)) {
+            character.ApplyImpulse({1, 0, 0}, 5.0f);
+        }
+
+        // ---- Render ----
         BeginDrawing();
-
-        ClearBackground({ 30, 30, 35, 255 });
+        ClearBackground({30, 30, 35, 255});
 
         BeginMode3D(camera);
 
-        DrawGrid(20, 0.5f);
+        // Draw ground
+        DrawPlane({0, -1, 0}, {100, 100}, GRAY);
+        DrawGrid(20, 1.0f);
 
-        DrawSkeleton(skeleton, models);
+        // Draw skeleton
+        renderer.DrawSkeleton(
+            anim.GetSkeleton(),
+            anim.GetModelMatrices(),
+            BLUE,   // joint color
+            RED,    // bone color
+            0.05f   // joint size
+        );
 
         EndMode3D();
 
-        DrawText("OZZ + raylib test", 20, 20, 20, GREEN);
-        DrawText("Right mouse: rotate camera", 20, 45, 16, GRAY);
+        // Draw UI
+        DrawText("Skeleton Animation + Physics", 20, 20, 20, GREEN);
+        DrawText("Space: Play/Pause | R: Reset", 20, 45, 16, GRAY);
+        DrawText("Arrow Keys: Apply Force | Right Mouse: Rotate Camera", 20, 65, 16, GRAY);
+
+        if (anim.IsPlaying()) {
+            DrawText("Playing", 20, 85, 16, GREEN);
+        } else {
+            DrawText("Stopped", 20, 85, 16, RED);
+        }
+
+        DrawFPS(screenWidth - 100, 20);
 
         EndDrawing();
     }
 
+    // ---- Cleanup ----
+    delete world;
+    delete solver;
+    delete broadphase;
+    delete dispatcher;
+    delete collision_config;
+
+    CloseWindow();
+
     return 0;
 }
-

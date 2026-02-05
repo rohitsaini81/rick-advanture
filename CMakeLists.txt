@@ -66,6 +66,7 @@ set(IMGUI_SOURCES
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/script
+    ${CMAKE_SOURCE_DIR}/src/ozz
 
     # raylib-cpp and raylib headers
     ${CMAKE_SOURCE_DIR}/externals/raylib/src        # raylib.h
@@ -75,6 +76,9 @@ include_directories(
 
     # Bullet Physics
      ${CMAKE_SOURCE_DIR}/externals/bullet3/src
+
+    # OZZ Animation
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation/include
 )
 
 # ---- Link Directories ----
@@ -110,9 +114,12 @@ add_executable(${PROJECT_NAME}
     src/video_player/VideoPlayer.cpp
     ${IMGUI_SOURCES}
 
+    # ---- OZZ Animation System ----
+    src/ozz/skeleton_animation.cpp
+    src/ozz/skeleton_renderer.cpp
+    src/ozz/physics_character.cpp
 
-
-        # ---- OZZ fused sources ----
+    # ---- OZZ fused sources ----
     externals/ozz-animation/build/src_fused/ozz_animation.cc
     externals/ozz-animation/build/src_fused/ozz_base.cc
     externals/ozz-animation/build/src_fused/ozz_geometry.cc
