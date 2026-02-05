@@ -19,6 +19,13 @@ PhysicsCharacter::~PhysicsCharacter() {
     }
 }
 
+void PhysicsCharacter::ApplyForce(const btVector3& dir, float strength)
+{
+    PhysicsCharacter::rigid_bodies_[0]->applyCentralForce(dir * strength);
+}
+
+
+
 void PhysicsCharacter::InitializeFromSkeleton(const ozz::animation::Skeleton& skeleton) {
     // Create capsule shapes for each joint
     for (int i = 0; i < skeleton.num_joints(); i++) {
@@ -88,18 +95,18 @@ void PhysicsCharacter::UpdateFromSkeleton(
     }
 }
 
-void PhysicsCharacter::ApplyForce(const Vector3& force_direction, float magnitude) {
-    if (!is_enabled_ || rigid_bodies_.empty()) {
-        return;
-    }
-
-    // Apply force to root body (first joint)
-    btVector3 force(force_direction.x * magnitude,
-                    force_direction.y * magnitude,
-                    force_direction.z * magnitude);
-
-    rigid_bodies_[0]->applyCentralForce(force);
-}
+// void PhysicsCharacter::ApplyForce(const Vector3& force_direction, float magnitude) {
+//     if (!is_enabled_ || rigid_bodies_.empty()) {
+//         return;
+//     }
+//
+//     // Apply force to root body (first joint)
+//     btVector3 force(force_direction.x * magnitude,
+//                     force_direction.y * magnitude,
+//                     force_direction.z * magnitude);
+//
+//     rigid_bodies_[0]->applyCentralForce(force);
+// }
 
 void PhysicsCharacter::ApplyImpulse(const Vector3& direction, float magnitude) {
     if (!is_enabled_ || rigid_bodies_.empty()) {

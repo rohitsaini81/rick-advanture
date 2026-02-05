@@ -71,6 +71,14 @@ int main() {
     // ---- Setup Physics Character ----
     PhysicsCharacter character(world);
     character.InitializeFromSkeleton(anim.GetSkeleton());
+    DisableCursor(); // Locks mouse (FPS-style camera)
+
+
+    float yaw = 0.0f;
+    float pitch = 0.0f;
+    float camDistance = 5.0f;
+
+
 
     // ---- Main Loop ----
     while (!WindowShouldClose()) {
@@ -85,12 +93,8 @@ int main() {
         // Simulate physics
         world->stepSimulation(dt, 10);
 
-        // Camera orbit control
-        if (IsMouseButtonDown(MOUSE_RIGHT_BUTTON)) {
-            Vector2 delta = GetMouseDelta();
-            camera.position.x += delta.x * 0.01f;
-            camera.position.z += delta.y * 0.01f;
-        }
+
+
 
         // Keyboard controls for animation
         if (IsKeyPressed(KEY_SPACE)) {
@@ -99,18 +103,18 @@ int main() {
         if (IsKeyPressed(KEY_R)) {
             anim.Reset();
         }
-
-        // Apply force with arrow keys
-        if (IsKeyPressed(KEY_UP)) {
-            character.ApplyImpulse({0, 0, -1}, 5.0f);
+        // Apply force continuously while key is held
+        if (IsKeyDown(KEY_UP)) {
+            character.ApplyForce({0,0,-1}, 50.0f);
+            // character.ApplyImpulse({0, 0, -1}, 5.0f);
         }
-        if (IsKeyPressed(KEY_DOWN)) {
+        if (IsKeyDown(KEY_DOWN)) {
             character.ApplyImpulse({0, 0, 1}, 5.0f);
         }
-        if (IsKeyPressed(KEY_LEFT)) {
+        if (IsKeyDown(KEY_LEFT)) {
             character.ApplyImpulse({-1, 0, 0}, 5.0f);
         }
-        if (IsKeyPressed(KEY_RIGHT)) {
+        if (IsKeyDown(KEY_RIGHT)) {
             character.ApplyImpulse({1, 0, 0}, 5.0f);
         }
 
