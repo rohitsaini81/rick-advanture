@@ -1,54 +1,158 @@
+#include "physics.h"
 #include "raylib.h"
-#include <btBulletDynamicsCommon.h>
-#include <vector>
-
+#include "raymath.h"
 #include "3dObjects/objects.h"
 #include "Controls/camera.h"
 #include "ETC/global_var.h"
-#include "ozz/skeleton_animation.h"
-#include "ozz/skeleton_renderer.h"
-#include "ozz/physics_character.h"
+#include <iostream>
+#include <string>
 
-// Main
+#include "iostream"
+#include "raylib.h"
+#include <atomic>
+#include <chrono>
+#include <thread>
+
+#include "physics_character.h"
+#include "skeleton_animation.h"
+#include "skeleton_renderer.h"
+
+extern "C" {
+#include "lauxlib.h"
+#include "lua.h"
+#include "lualib.h"
+}
+#include "script/script.h"
+#include <filesystem>
+
+#include "level/player/player.h"
+#include "related/file.h"
+#include "menu/menu.h"
+#include "video_player/VideoPlayer.h"
+
+
+#include <vector>
+#include <iomanip>
+#include <sstream>
+
+
+
+
+
+
+#include "rlImGui.h"
+#include "imgui.h"
+
+
+
+
+namespace fs = std::filesystem;
 int main() {
-    // Initialize project directory and globals
-    INIT_BEFORE();
-
-    const int screenWidth = 1280;
-    const int screenHeight = 800;
-
-    InitWindow(screenWidth, screenHeight, "Skeleton Animation + Physics");
+    // Initialization
+    SetExitKey(-1); // useless
+    SetConfigFlags(FLAG_MSAA_4X_HINT); // Enable Multi Sampling Anti Aliasing 4x (if available)
+    InitWindow(1080, 700, "Rick and Morty Baby");
     SetTargetFPS(60);
+    SetMousePosition(GetScreenWidth() / 2, GetScreenHeight() / 2);
 
-    // ---- Setup Camera ----
-    Camera3D camera = {0};
-    camera.position = {3.0f, 2.0f, 3.0f};
-    camera.target = {0.0f, 1.0f, 0.0f};
-    camera.up = {0.0f, 1.0f, 0.0f};
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
+    Font font = GetFontDefault();
+    MenuScreen menu({ "Start Game", "Options", "Exit" }, font);
+  //      std::atomic<bool> loadingDone = false;
+//std::thread loadingThread(LoadResources, std::ref(loadingDone));
+    int dotCounter = 0;
+    float timer = 0.0f;
+    bool open = false;
+    std::string loadingText = "Loading";
 
-    // ---- Setup Physics World ----
-    btDefaultCollisionConfiguration* collision_config =
-        new btDefaultCollisionConfiguration();
-    btCollisionDispatcher* dispatcher =
-        new btCollisionDispatcher(collision_config);
-    btBroadphaseInterface* broadphase =
-        new btDbvtBroadphase();
-    btSequentialImpulseConstraintSolver* solver =
-        new btSequentialImpulseConstraintSolver();
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            loadingText += ".";
+            DrawText(loadingText.c_str(), 350, 200, 30, DARKGRAY);
+            EndDrawing();
 
-    btDynamicsWorld* world =
-        new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collision_config);
-    world->setGravity(btVector3(0, -9.8f, 0));
 
-    // Create ground
-    btCollisionShape* ground_shape = new btBoxShape(btVector3(50, 0.5f, 50));
-    btDefaultMotionState* ground_motion = new btDefaultMotionState(
-        btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-    btRigidBody::btRigidBodyConstructionInfo ground_info(0, ground_motion, ground_shape);
-    btRigidBody* ground = new btRigidBody(ground_info);
-    world->addRigidBody(ground);
+
+
+   INIT_BEFORE();
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    loadingText += ".";
+    DrawText(loadingText.c_str(), 350, 200, 30, DARKGRAY);
+    EndDrawing();
+
+    InitPhysics();
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    loadingText += ".";
+    DrawText(loadingText.c_str(), 350, 200, 30, DARKGRAY);
+    EndDrawing();
+
+    CAM_INIT();
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    loadingText += ".";
+    DrawText(loadingText.c_str(), 350, 200, 30, DARKGRAY);
+    EndDrawing();
+
+    std::string modelPath2 = project_dir + "/assets/rick/rick.glb";
+    player = new Player(dynamicsWorld, modelPath2, {0, 2, 0});
+
+    std::string video_path = project_dir +"/assets/videos/minecraft.mp4";
+//
+
+  //  VideoPlayer video(video_path);
+    std::unique_ptr<VideoPlayer> video = std::make_unique<VideoPlayer>(video_path.c_str());
+
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    loadingText += ".";
+    DrawText(loadingText.c_str(), 350, 200, 30, DARKGRAY);
+    EndDrawing();
+    std::string path = getExecutableDir();
+
+    //--->
+    std::string assetsDir = pathJoin(getExecutableDir(), "assets");
+    std::string scriptDir = pathJoin(getExecutableDir(), "script");
+    const std::string modelPath = assetsDir+"/rick/rick.glb";
+    // if (plane.meshCount == 0) {
+    //     std::cerr << "Failed to load plane model!" << std::endl;
+    // }
+    Model model = LoadModel(modelPath.c_str());
+    // int animCount = 0;
+    // ModelAnimation* anims = LoadModelAnimations(modelPath, &animCount);
+    // float animFrameCounter = 0.0f;
+
+
+
+
+    /***************************Lua script loading****************************/
+    // Lua is here
+    const std::string scriptPath = scriptDir+ "/config.lua";
+    std::cout<<scriptPath<<std::endl;
+    lua_State* L = luaL_newstate();
+    // luaL_openlibs(L);
+    luaL_dostring(L, "print('Hello from Lua 5.1.5')");
+    run_lua_script(scriptPath.c_str());
+    load_config(scriptPath.c_str());
+    time_t lastModified = getFileLastModifiedTime(scriptPath);
+
+
+    // end lua here
+    /*********************************************************************/
+
+
+int screen_number=0;
+
+    rlImGuiSetup(true);  // true = dark style
+
+
+
+
+
+
+
+
+
 
     // ---- Load Skeleton Animation ----
     SkeletonAnimation anim;
@@ -65,103 +169,218 @@ int main() {
 
     anim.Play();
 
+    // ----
+
     // ---- Setup Skeleton Renderer ----
     SkeletonRenderer renderer;
 
     // ---- Setup Physics Character ----
-    PhysicsCharacter character(world);
+    PhysicsCharacter character(dynamicsWorld);
     character.InitializeFromSkeleton(anim.GetSkeleton());
-    DisableCursor(); // Locks mouse (FPS-style camera)
-
-
-    float yaw = 0.0f;
-    float pitch = 0.0f;
-    float camDistance = 5.0f;
-
-
-
-    // ---- Main Loop ----
-    while (!WindowShouldClose()) {
-        float dt = GetFrameTime();
-
-        // Update animation
-        anim.Update(dt);
-
-        // Update physics character from skeleton
-        character.UpdateFromSkeleton(anim.GetModelMatrices());
-
-        // Simulate physics
-        world->stepSimulation(dt, 10);
 
 
 
 
-        // Keyboard controls for animation
-        if (IsKeyPressed(KEY_SPACE)) {
-            anim.IsPlaying() ? anim.Stop() : anim.Play();
-        }
-        if (IsKeyPressed(KEY_R)) {
-            anim.Reset();
-        }
-        // Apply force continuously while key is held
-        if (IsKeyDown(KEY_UP)) {
-            character.ApplyForce({0,0,-1}, 50.0f);
-            // character.ApplyImpulse({0, 0, -1}, 5.0f);
-        }
-        if (IsKeyDown(KEY_DOWN)) {
-            character.ApplyImpulse({0, 0, 1}, 5.0f);
-        }
-        if (IsKeyDown(KEY_LEFT)) {
-            character.ApplyImpulse({-1, 0, 0}, 5.0f);
-        }
-        if (IsKeyDown(KEY_RIGHT)) {
-            character.ApplyImpulse({1, 0, 0}, 5.0f);
+
+
+
+
+
+
+
+
+
+
+
+
+bool userWantsToClose = false;
+
+ // GAME LOOP HERE
+ //
+
+    while (!userWantsToClose) {
+        time_t currentModified = getFileLastModifiedTime(scriptPath);
+        if (currentModified != lastModified) {
+            lastModified = currentModified;
+            std::cout << "Reloading Lua script..." << std::endl;
+            if (!elementList.empty()) {
+                for (int i = 0; i < elementList.size(); i++) {
+                    elementList[i]->destroy(dynamicsWorld);
+                }
+                elementList.clear();
+            }
+            run_lua_script(scriptPath.c_str());
+            load_config(scriptPath.c_str());
         }
 
-        // ---- Render ----
+        float delta = GetFrameTime();
+
+
+
+// UPDATE HERE
+control->update(delta);
+        // menu screen
+        if(screen_number==0){
+
+if(WindowShouldClose()){
+userWantsToClose=true;
+}
+
+
+
+
+            menu.Update();
+        video->Update();   // decode next frame
+        int choice = menu.GetSelected();
+        if (choice != -1) {
+            if (choice == 0) {
+                TraceLog(LOG_INFO, "Start Game selected!");
+                screen_number=1;
+            }
+            if (choice == 1) {
+                TraceLog(LOG_INFO, "Options selected!");
+                screen_number=2;
+            }
+            if (choice == 2) break; // Exit
+        }}
+        else{
+            UPDATE_CAMERA();
+
+
+            // ozz-animatino
+            float dt = GetFrameTime();
+
+            // Update animation
+            anim.Update(dt);
+
+            // Update physics character from skeleton
+            character.UpdateFromSkeleton(anim.GetModelMatrices());
+
+
+
+
+
+        // Handle animation
+        //--->
+        // if (animCount > 0) {
+        //     animFrameCounter += 1.0f;
+        //     if (animFrameCounter >= anims[0].frameCount) animFrameCounter = 0;
+        //     UpdateModelAnimation(model, anims[0], (int)animFrameCounter);
+        // }
+
+
+        if(IsKeyPressed(KEY_ESCAPE)){
+            screen_number=0;
+        }
+
+        if(IsKeyPressed(KEY_P)){
+            cameraDistance++;
+        }
+        if(IsKeyPressed(KEY_O)){
+            cameraDistance--;
+        }
+        if(IsKeyPressed(KEY_U)){
+            maxPitch++;
+        }
+        if(IsKeyPressed(KEY_I)){
+            maxPitch--;
+
+        }
+
+
+
+
+
+        }
+
+
+
+
+        if (IsKeyPressed(KEY_X)) {
+            open = !open;
+            if (open) {
+                EnableCursor(); // Show and unlock the mouse for ImGui
+            }
+            else {
+                DisableCursor(); // Hide and lock the mouse for game control
+            }
+            std::cout << "Toggled ImGui window: " << (open ? "OPEN" : "CLOSED") << std::endl;
+        }
+
+
+
+//  ************RENDER 3D HERE***********
+control->render();
+
         BeginDrawing();
-        ClearBackground({30, 30, 35, 255});
+        ClearBackground(BLACK);
+        // ClearBackground(RAYWHITE);
 
-        BeginMode3D(camera);
 
-        // Draw ground
-        DrawPlane({0, -1, 0}, {100, 100}, GRAY);
-        DrawGrid(20, 1.0f);
 
-        // Draw skeleton
-        renderer.DrawSkeleton(
-            anim.GetSkeleton(),
-            anim.GetModelMatrices(),
-            BLUE,   // joint color
-            RED,    // bone color
-            0.05f   // joint size
-        );
+
+
+
+
+
+
+
+        if(screen_number==0){
+            video->Render(0, 0);
+            menu.Render();
+        }
+
+
+
+        if(screen_number==1){
+            BeginMode3D(camera);
+        DrawPlane(Vector3Zero(), (Vector2){10.0, 10.0}, WHITE);
+        player->Update(delta);
+        player->Render();
+
+        render(delta);
+
+
+            // Draw skeleton
+            renderer.DrawSkeleton(
+                anim.GetSkeleton(),
+                anim.GetModelMatrices(),
+                BLUE,   // joint color
+                RED,    // bone color
+                0.05f   // joint size
+            );
+
+
+
+
 
         EndMode3D();
-
-        // Draw UI
-        DrawText("Skeleton Animation + Physics", 20, 20, 20, GREEN);
-        DrawText("Space: Play/Pause | R: Reset", 20, 45, 16, GRAY);
-        DrawText("Arrow Keys: Apply Force | Right Mouse: Rotate Camera", 20, 65, 16, GRAY);
-
+    }
         if (anim.IsPlaying()) {
             DrawText("Playing", 20, 85, 16, GREEN);
         } else {
             DrawText("Stopped", 20, 85, 16, RED);
         }
 
-        DrawFPS(screenWidth - 100, 20);
+        DrawText("SPACE ENGINE / RICK AND MORTY GM", 10, 10, 20, DARKGRAY);
 
+                rlImGuiBegin();
+        // --- ImGui UI ---
+        ImGui::Begin("Demo Window");
+        ImGui::Text("Hello from ImGui!");
+ImGui::SliderFloat("Max Pitch", &maxPitch, 0.0f, 1.0f);
+ImGui::SliderFloat("Min Pitch", &minPitch, 0.0f, 1.0f);
+        ImGui::End();
+         rlImGuiEnd();
         EndDrawing();
     }
 
-    // ---- Cleanup ----
-    delete world;
-    delete solver;
-    delete broadphase;
-    delete dispatcher;
-    delete collision_config;
 
+    // Cleanup
+    //--->
+    // if (animCount > 0) UnloadModelAnimations(anims, animCount);
+    video.reset();
+    CleanupPhysics();
     CloseWindow();
 
     return 0;
