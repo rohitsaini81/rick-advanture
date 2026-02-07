@@ -25,6 +25,7 @@ public:
     void Play();
     void Stop();
     void Reset();
+    void SetAnimationTime(float time);
 
     // Getters
     const ozz::animation::Skeleton& GetSkeleton() const { return skeleton_; }

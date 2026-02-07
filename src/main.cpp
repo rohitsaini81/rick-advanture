@@ -26,6 +26,7 @@ extern "C" {
 #include <filesystem>
 
 #include "level/player/player.h"
+#include "level/skeleton_player/skeleton_player.h"
 #include "related/file.h"
 #include "menu/menu.h"
 #include "video_player/VideoPlayer.h"
@@ -97,6 +98,10 @@ int main() {
     std::string modelPath2 = project_dir + "/assets/rick/rick.glb";
     player = new Player(dynamicsWorld, modelPath2, {0, 2, 0});
 
+    // Character type enum
+    enum CharacterType { RICK, SKELETON };
+    CharacterType activeCharacter = RICK;
+
     std::string video_path = project_dir +"/assets/videos/minecraft.mp4";
 //
 
@@ -154,29 +159,16 @@ int screen_number=0;
 
 
 
-    // ---- Load Skeleton Animation ----
-    SkeletonAnimation anim;
-
+    // ---- Create Skeleton Player ----
     std::string skeleton_path = project_dir + "/assets/ozz/skeleton.ozz";
     std::string animation_path = project_dir + "/assets/ozz/animation.ozz";
 
-    if (!anim.LoadSkeleton(skeleton_path.c_str())) {
-        return 1;
-    }
-    if (!anim.LoadAnimation(animation_path.c_str())) {
-        return 1;
-    }
-
-    anim.Play();
-
-    // ----
-
-    // ---- Setup Skeleton Renderer ----
-    SkeletonRenderer renderer;
-
-    // ---- Setup Physics Character ----
-    PhysicsCharacter character(dynamicsWorld);
-    character.InitializeFromSkeleton(anim.GetSkeleton());
+    SkeletonPlayer* skeletonPlayer = new SkeletonPlayer(
+        dynamicsWorld,
+        skeleton_path,
+        animation_path,
+        {5, 2, 0}  // Different position from Rick to avoid overlap
+    );
 
 
 
@@ -244,17 +236,14 @@ userWantsToClose=true;
             if (choice == 2) break; // Exit
         }}
         else{
-            UPDATE_CAMERA();
+            // Update camera to follow active character
+            Vector3 targetPos = (activeCharacter == RICK)
+                ? player->GetPosition()
+                : skeletonPlayer->GetPosition();
+            UPDATE_CAMERA(targetPos);
 
 
-            // ozz-animatino
             float dt = GetFrameTime();
-
-            // Update animation
-            anim.Update(dt);
-
-            // Update physics character from skeleton
-            character.UpdateFromSkeleton(anim.GetModelMatrices());
 
 
 
@@ -284,10 +273,12 @@ userWantsToClose=true;
         }
         if(IsKeyPressed(KEY_I)){
             maxPitch--;
-
         }
 
-
+        if(IsKeyPressed(KEY_Y)){
+            activeCharacter = (activeCharacter == RICK) ? SKELETON : RICK;
+            std::cout << "Switched to " << (activeCharacter == RICK ? "RICK" : "SKELETON") << std::endl;
+        }
 
 
 
@@ -335,20 +326,17 @@ control->render();
         if(screen_number==1){
             BeginMode3D(camera);
         DrawPlane(Vector3Zero(), (Vector2){10.0, 10.0}, WHITE);
-        player->Update(delta);
-        player->Render();
+
+        // Update and render only active character
+        if (activeCharacter == RICK) {
+            player->Update(delta);
+            player->Render();
+        } else {
+            skeletonPlayer->Update(delta);
+            skeletonPlayer->Render();
+        }
 
         render(delta);
-
-
-            // Draw skeleton
-            renderer.DrawSkeleton(
-                anim.GetSkeleton(),
-                anim.GetModelMatrices(),
-                BLUE,   // joint color
-                RED,    // bone color
-                0.05f   // joint size
-            );
 
 
 
@@ -356,11 +344,12 @@ control->render();
 
         EndMode3D();
     }
-        if (anim.IsPlaying()) {
-            DrawText("Playing", 20, 85, 16, GREEN);
+        if (activeCharacter == SKELETON) {
+            DrawText("Character: SKELETON", 20, 85, 16, GREEN);
         } else {
-            DrawText("Stopped", 20, 85, 16, RED);
+            DrawText("Character: RICK", 20, 85, 16, GREEN);
         }
+        DrawText("Press Y to toggle character", 20, 120, 14, GRAY);
 
         DrawText("SPACE ENGINE / RICK AND MORTY GM", 10, 10, 20, DARKGRAY);
 

@@ -110,3 +110,24 @@ void SkeletonAnimation::Reset() {
     current_time_ = 0.0f;
     is_playing_ = false;
 }
+
+void SkeletonAnimation::SetAnimationTime(float time) {
+    if (animation_.duration() <= 0.0f) {
+        return;
+    }
+
+    // Clamp time to animation duration
+    current_time_ = time;
+    if (current_time_ > animation_.duration()) {
+        current_time_ = animation_.duration();
+    }
+    if (current_time_ < 0.0f) {
+        current_time_ = 0.0f;
+    }
+
+    // Sample at this time
+    float ratio = current_time_ / animation_.duration();
+    sampling_job_.ratio = ratio;
+    sampling_job_.Run();
+    ltm_job_.Run();
+}
