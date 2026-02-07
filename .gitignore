@@ -30,7 +30,7 @@
 *.DS_Store
 *.log
 *.swp
-*~
+#*~
 *.bak
 
 # === Compiled binaries ===
