@@ -53,6 +53,7 @@ include_directories(externals/imgui)
 include_directories(externals/lua-5.1.5)
 
 
+
     # Add sources
 set(IMGUI_SOURCES
    ./externals/imgui/imgui.cpp
@@ -60,11 +61,14 @@ set(IMGUI_SOURCES
    ./externals/imgui/imgui_tables.cpp
    ./externals/imgui/imgui_widgets.cpp
    ./externals/rlImGui/rlImGui.cpp
+        src/particles/particle.cpp
+        src/particles/particle.h
 )
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/src/script
+    ${CMAKE_SOURCE_DIR}/src/ozz
 
     # raylib-cpp and raylib headers
     ${CMAKE_SOURCE_DIR}/externals/raylib/src        # raylib.h
@@ -74,6 +78,9 @@ include_directories(
 
     # Bullet Physics
      ${CMAKE_SOURCE_DIR}/externals/bullet3/src
+
+    # OZZ Animation
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation/include
 )
 
 # ---- Link Directories ----
@@ -81,6 +88,10 @@ include_directories(
  #   /usr/lib
   #  /usr/local/lib
 #)
+
+
+find_package(Threads REQUIRED)
+add_definitions(-DOZZ_BUILD_FUSED)
 
 # ---- Executable ----
 add_executable(${PROJECT_NAME}
@@ -100,11 +111,33 @@ add_executable(${PROJECT_NAME}
     src/related/file.cpp
     src/menu/menu.cpp
     src/level/player/player.cpp
+    src/level/skeleton_player/skeleton_player.cpp
     src/level/level1/level.cpp
 
     src/video_player/VideoPlayer.cpp
     ${IMGUI_SOURCES}
+
+    # ---- OZZ Animation System ----
+    src/ozz/skeleton_animation.cpp
+    src/ozz/skeleton_renderer.cpp
+    src/ozz/physics_character.cpp
+
+    # ---- OZZ fused sources ----
+    externals/ozz-animation/build/src_fused/ozz_animation.cc
+    externals/ozz-animation/build/src_fused/ozz_base.cc
+    externals/ozz-animation/build/src_fused/ozz_geometry.cc
+
+
     )
+
+
+# ---- OZZ include path (important for fused build) ----
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation/include
+    ${CMAKE_SOURCE_DIR}/externals/ozz-animation
+)
+
 
 # ---- Linking ----
 target_link_libraries(${PROJECT_NAME}

@@ -13,11 +13,6 @@
 #include <chrono>
 #include <thread>
 
-#include "physics_character.h"
-#include "skeleton_animation.h"
-#include "skeleton_renderer.h"
-#include "particles/particle.h"
-
 extern "C" {
 #include "lauxlib.h"
 #include "lua.h"
@@ -27,7 +22,6 @@ extern "C" {
 #include <filesystem>
 
 #include "level/player/player.h"
-#include "level/skeleton_player/skeleton_player.h"
 #include "related/file.h"
 #include "menu/menu.h"
 #include "video_player/VideoPlayer.h"
@@ -99,10 +93,6 @@ int main() {
     std::string modelPath2 = project_dir + "/assets/rick/rick.glb";
     player = new Player(dynamicsWorld, modelPath2, {0, 2, 0});
 
-    // Character type enum
-    enum CharacterType { RICK, SKELETON };
-    CharacterType activeCharacter = RICK;
-
     std::string video_path = project_dir +"/assets/videos/minecraft.mp4";
 //
 
@@ -150,41 +140,6 @@ int main() {
 int screen_number=0;
 
     rlImGuiSetup(true);  // true = dark style
-
-
-
-
-
-
-
-
-
-
-    // ---- Create Skeleton Player ----
-    std::string skeleton_path = project_dir + "/assets/animrick/skeleton.ozz";
-    std::string animation_path = project_dir + "/assets/animrick/idle.ozz";
-
-    auto* skeletonPlayer = new SkeletonPlayer(
-        dynamicsWorld,
-        skeleton_path,
-        animation_path,
-        {5, 2, 0}  // Different position from Rick to avoid overlap
-    );
-
-    particle particles(dynamicsWorld);
-
-    // Spawn
-    particles.initParticles(
-        200,
-        0.01f ,  // marble
-        0.005f , // sand
-
-        { -2, 5, -2 },
-        {  2,10,  2 }
-    );
-
-
-
 
 
 
@@ -247,18 +202,8 @@ userWantsToClose=true;
                 screen_number=2;
             }
             if (choice == 2) break; // Exit
-        }}
-        else{
-            // Update camera to follow active character
-            Vector3 targetPos = (activeCharacter == RICK)
-                ? player->GetPosition()
-                : skeletonPlayer->GetPosition();
-            UPDATE_CAMERA(targetPos);
-
-
-            float dt = GetFrameTime();
-
-
+        }}else{
+            UPDATE_CAMERA();
 
 
 
@@ -286,17 +231,14 @@ userWantsToClose=true;
         }
         if(IsKeyPressed(KEY_I)){
             maxPitch--;
+
         }
 
-        if(IsKeyPressed(KEY_Y)){
-            activeCharacter = (activeCharacter == RICK) ? SKELETON : RICK;
-            std::cout << "Switched to " << (activeCharacter == RICK ? "RICK" : "SKELETON") << std::endl;
-        }
+
 
 
 
         }
-
 
 
 
@@ -340,30 +282,12 @@ control->render();
         if(screen_number==1){
             BeginMode3D(camera);
         DrawPlane(Vector3Zero(), (Vector2){10.0, 10.0}, WHITE);
-
-        // Update and render only active character
-        if (activeCharacter == RICK) {
-            player->Update(delta);
-            player->Render();
-        } else {
-            skeletonPlayer->Update(delta);
-            skeletonPlayer->Render();
-        }
+        player->Update(delta);
+        player->Render();
 
         render(delta);
-            particles.draw();
-
-
-
-
         EndMode3D();
     }
-        if (activeCharacter == SKELETON) {
-            DrawText("Character: SKELETON", 20, 85, 16, GREEN);
-        } else {
-            DrawText("Character: RICK", 20, 85, 16, GREEN);
-        }
-        DrawText("Press Y to toggle character", 20, 120, 14, GRAY);
 
         DrawText("SPACE ENGINE / RICK AND MORTY GM", 10, 10, 20, DARKGRAY);
 
@@ -382,8 +306,6 @@ ImGui::SliderFloat("Min Pitch", &minPitch, 0.0f, 1.0f);
     // Cleanup
     //--->
     // if (animCount > 0) UnloadModelAnimations(anims, animCount);
-
-    particles.destroy();
     video.reset();
     CleanupPhysics();
     CloseWindow();
