@@ -34,7 +34,7 @@ bool SkeletonAnimation::LoadSkeleton(const char* path) {
     sampling_context_.Resize(skeleton_.num_joints());
 
     // Setup sampling job
-    sampling_job_.animation = nullptr;
+    // sampling_job_.animation = nullptr;
     sampling_job_.context = &sampling_context_;
     sampling_job_.output = ozz::make_span(local_transforms_);
 
@@ -46,7 +46,10 @@ bool SkeletonAnimation::LoadSkeleton(const char* path) {
     return true;
 }
 
-bool SkeletonAnimation::LoadAnimation(const char* path) {
+
+bool SkeletonAnimation::LoadAnimation(const std::string& name, const char* path) {
+    ozz::animation::Animation anim;
+
     ozz::io::File file(path, "rb");
     if (!file.opened()) {
         printf("Failed to open animation: %s\n", path);
@@ -54,18 +57,30 @@ bool SkeletonAnimation::LoadAnimation(const char* path) {
     }
 
     ozz::io::IArchive archive(&file);
-    archive >> animation_;
+    archive >> anim;
 
-    printf("Loaded animation with duration: %.2f seconds\n", animation_.duration());
+    animations_[name] = std::move(anim);
 
-    // Setup sampling job with animation
-    sampling_job_.animation = &animation_;
-
+    printf("Loaded animation '%s'\n", name.c_str());
     return true;
 }
 
+
+void SkeletonAnimation::SetAnimation(const std::string& name) {
+    auto it = animations_.find(name);
+    if (it == animations_.end()) return;
+
+    current_animation_ = name;
+    sampling_job_.animation = &it->second;
+
+    current_time_ = 0.0f;
+}
+
+
+
 void SkeletonAnimation::Update(float dt) {
-    if (!is_playing_ || animation_.duration() <= 0.0f) {
+    const auto* anim = GetCurrentAnimation();
+    if (!is_playing_ || !anim || anim->duration() <= 0.0f){
         return;
     }
 
@@ -73,14 +88,14 @@ void SkeletonAnimation::Update(float dt) {
 
     // Handle looping
     if (is_looping_) {
-        float ratio = fmod(current_time_, animation_.duration()) / animation_.duration();
+        float ratio = fmod(current_time_, anim->duration()) / anim->duration();
         sampling_job_.ratio = ratio;
     } else {
-        if (current_time_ >= animation_.duration()) {
-            current_time_ = animation_.duration();
+        if (current_time_ >= anim->duration()) {
+            current_time_ = anim->duration();
             is_playing_ = false;
         }
-        sampling_job_.ratio = current_time_ / animation_.duration();
+        sampling_job_.ratio = current_time_ / anim->duration();
     }
 
     // Sample animation
@@ -112,21 +127,23 @@ void SkeletonAnimation::Reset() {
 }
 
 void SkeletonAnimation::SetAnimationTime(float time) {
-    if (animation_.duration() <= 0.0f) {
+    const auto* anim = GetCurrentAnimation();
+
+    if (anim->duration() <= 0.0f) {
         return;
     }
 
     // Clamp time to animation duration
     current_time_ = time;
-    if (current_time_ > animation_.duration()) {
-        current_time_ = animation_.duration();
+    if (current_time_ > anim->duration()) {
+        current_time_ = anim->duration();
     }
     if (current_time_ < 0.0f) {
         current_time_ = 0.0f;
     }
 
     // Sample at this time
-    float ratio = current_time_ / animation_.duration();
+    float ratio = current_time_ / anim->duration();
     sampling_job_.ratio = ratio;
     sampling_job_.Run();
     ltm_job_.Run();

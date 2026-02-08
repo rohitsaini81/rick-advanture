@@ -4,6 +4,8 @@
 #include "raymath.h"
 #include <iostream>
 
+PlayerAnimState animState = PlayerAnimState::Idle;
+
 SkeletonPlayer::SkeletonPlayer(btDiscreteDynamicsWorld* world, const std::string& skeletonPath,
                                const std::string& animationPath, const Vector3& startPos)
     : world(world), animationTime(0.0f), wasMoving(false)
@@ -13,15 +15,32 @@ SkeletonPlayer::SkeletonPlayer(btDiscreteDynamicsWorld* world, const std::string
         std::cerr << "Failed to load skeleton: " << skeletonPath << std::endl;
         return;
     }
-    if (!anim.LoadAnimation(animationPath.c_str())) {
-        std::cerr << "Failed to load animation: " << animationPath << std::endl;
+    // if (!anim.LoadAnimation(animationPath.c_str())) {
+    //     std::cerr << "Failed to load animation: " << animationPath << std::endl;
+    //     return;
+    // }
+
+
+
+    if (!anim.LoadSkeleton(skeletonPath.c_str())) {
+        std::cerr << "Failed to load skeleton\n";
         return;
     }
 
+    anim.LoadAnimation("idle", (project_dir+"/assets/animrick/idle.ozz").c_str());
+    anim.LoadAnimation("walk", (project_dir+"/assets/animrick/walk.ozz").c_str());
+    anim.LoadAnimation("jump", (project_dir+"/assets/animrick/jump.ozz").c_str());
+
+    anim.SetAnimation("idle");
+    anim.SetLooping(true);
+    anim.Play();
+
+
+
     // Setup animation (don't auto-play - we'll control it)
     anim.SetLooping(true);
-    anim.Stop();
-    anim.Reset();
+    // anim.Stop();
+    // anim.Reset();
 
     CreatePhysicsBody(startPos);
 
@@ -118,11 +137,35 @@ void SkeletonPlayer::Update(float deltaTime)
 
     Vector3 move = {0, 0, 0};
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     if (IsKeyDown(KEY_W)) move = Vector3Add(move, forward);
     if (IsKeyDown(KEY_S)) move = Vector3Subtract(move, forward);
     if (IsKeyDown(KEY_D)) move = Vector3Add(move, right);
     if (IsKeyDown(KEY_A)) move = Vector3Subtract(move, right);
-    if (IsKeyPressed(KEY_SPACE)) { body->applyCentralImpulse(btVector3(0, 5, 0)); }
+    if (IsKeyPressed(KEY_SPACE))
+    {
+        body->applyCentralImpulse(btVector3(0, 5, 0));
+        SetAnimationState(PlayerAnimState::Jump);
+    }
 
     if (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT)) {
         playerMoveSpeed = 50;
@@ -137,7 +180,19 @@ void SkeletonPlayer::Update(float deltaTime)
     body->setLinearVelocity(vel);
 
     // Update animation based on movement state
-    UpdateAnimation(deltaTime, isMoving);
+    // UpdateAnimation(deltaTime, isMoving);
+
+    if (animState != PlayerAnimState::Jump) {
+        if (isMoving)
+            SetAnimationState(PlayerAnimState::Walk);
+        else
+            SetAnimationState(PlayerAnimState::Idle);
+    }
+
+    anim.Update(deltaTime);
+    if (animState == PlayerAnimState::Jump && !anim.IsPlaying()) {
+        SetAnimationState(isMoving ? PlayerAnimState::Walk : PlayerAnimState::Idle);
+    }
 
     SyncRotation();
 }
@@ -159,4 +214,40 @@ void SkeletonPlayer::Render()
         BLUE,   // joint color
         RED     // bone color
     );
+}
+
+
+
+
+
+
+
+
+
+
+void SkeletonPlayer::SetAnimationState(PlayerAnimState newState)
+{
+    if (newState == animState) return;
+
+    animState = newState;
+
+    switch (animState) {
+    case PlayerAnimState::Idle:
+        anim.SetAnimation("idle");
+        anim.SetLooping(true);
+        anim.Play();
+        break;
+
+    case PlayerAnimState::Walk:
+        anim.SetAnimation("walk");
+        anim.SetLooping(true);
+        anim.Play();
+        break;
+
+    case PlayerAnimState::Jump:
+        anim.SetAnimation("jump");
+        anim.SetLooping(false);
+        anim.Play();
+        break;
+    }
 }

@@ -300,6 +300,7 @@ userWantsToClose=true;
 
 
 
+
         if (IsKeyPressed(KEY_X)) {
             open = !open;
             if (open) {

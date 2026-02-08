@@ -7,13 +7,16 @@
 #include "../../ozz/skeleton_animation.h"
 #include "../../ozz/skeleton_renderer.h"
 
+
+enum class PlayerAnimState;
+
 class SkeletonPlayer
 {
 public:
     SkeletonPlayer(btDiscreteDynamicsWorld* world, const std::string& skeletonPath,
                    const std::string& animationPath, const Vector3& startPos);
     ~SkeletonPlayer();
-
+void SetAnimationState(PlayerAnimState newState);
     void Update(float deltaTime);
     void Render();
     float skeletonScale = 0.02f; // default 1
@@ -39,5 +42,18 @@ private:
     bool wasMoving;
     float capsuleHeight;
 };
+
+
+
+
+
+
+enum class PlayerAnimState {
+    Idle,
+    Walk,
+    Jump
+};
+
+extern PlayerAnimState animState;
 
 #endif
