@@ -61,6 +61,8 @@ set(IMGUI_SOURCES
    ./externals/imgui/imgui_tables.cpp
    ./externals/imgui/imgui_widgets.cpp
    ./externals/rlImGui/rlImGui.cpp
+        src/particles/particle.cpp
+        src/particles/particle.h
 )
 
 include_directories(

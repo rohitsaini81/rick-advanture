@@ -16,6 +16,7 @@
 #include "physics_character.h"
 #include "skeleton_animation.h"
 #include "skeleton_renderer.h"
+#include "particles/particle.h"
 
 extern "C" {
 #include "lauxlib.h"
@@ -168,6 +169,17 @@ int screen_number=0;
         skeleton_path,
         animation_path,
         {5, 2, 0}  // Different position from Rick to avoid overlap
+    );
+
+    particle particles(dynamicsWorld);
+
+    // Spawn
+    particles.initParticles(
+        200,
+        0.03f,    // 3 cm
+        0.1f,     // lighter
+        { -2, 5, -2 },
+        {  2,10,  2 }
     );
 
 
@@ -337,7 +349,7 @@ control->render();
         }
 
         render(delta);
-
+            particles.draw();
 
 
 
@@ -368,6 +380,8 @@ ImGui::SliderFloat("Min Pitch", &minPitch, 0.0f, 1.0f);
     // Cleanup
     //--->
     // if (animCount > 0) UnloadModelAnimations(anims, animCount);
+
+    particles.destroy();
     video.reset();
     CleanupPhysics();
     CloseWindow();
