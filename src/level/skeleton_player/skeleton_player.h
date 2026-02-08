@@ -41,6 +41,7 @@ private:
     float animationTime;
     bool wasMoving;
     float capsuleHeight;
+    Quaternion renderRotation;
 };
 
 

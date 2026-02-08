@@ -1,5 +1,6 @@
 #include "skeleton_renderer.h"
 #include <ozz/base/maths/simd_math.h>
+#include "raymath.h"
 #include <cmath>
 
 SkeletonRenderer::SkeletonRenderer() {
@@ -68,6 +69,9 @@ void SkeletonRenderer::DrawSkeletonTransformed(
         local_pos.y *= scale;
         local_pos.z *= scale;
 
+        // Apply rotation
+        local_pos = Vector3RotateByQuaternion(local_pos, rotation);
+
         // Apply position offset
         Vector3 final_pos = {
             local_pos.x + position.x,
@@ -85,6 +89,8 @@ void SkeletonRenderer::DrawSkeletonTransformed(
             parent_local_pos.x *= scale;
             parent_local_pos.y *= scale;
             parent_local_pos.z *= scale;
+
+            parent_local_pos = Vector3RotateByQuaternion(parent_local_pos, rotation);
 
             Vector3 parent_final_pos = {
                 parent_local_pos.x + position.x,

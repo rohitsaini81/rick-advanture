@@ -8,7 +8,7 @@ PlayerAnimState animState = PlayerAnimState::Idle;
 
 SkeletonPlayer::SkeletonPlayer(btDiscreteDynamicsWorld* world, const std::string& skeletonPath,
                                const std::string& animationPath, const Vector3& startPos)
-    : world(world), animationTime(0.0f), wasMoving(false)
+    : world(world), animationTime(0.0f), wasMoving(false), renderRotation(QuaternionIdentity())
 {
     // Load skeleton and animation
     if (!anim.LoadSkeleton(skeletonPath.c_str())) {
@@ -98,6 +98,7 @@ void SkeletonPlayer::SyncRotation()
     float yaw = atan2f(forward.x, forward.z);
     btQuaternion q;
     q.setEuler(0, -yaw, 0);
+    renderRotation = QuaternionFromEuler(0.0f, -yaw, 0.0f);
 
     btTransform trans;
     body->getMotionState()->getWorldTransform(trans);
@@ -205,11 +206,17 @@ void SkeletonPlayer::Render()
     // Align skeleton feet with ground (offset from capsule center)
     position.y -= capsuleHeight * 0.5f;
 
+    // Use current camera direction for model orientation (avoids 1-frame lag if camera updates after player update)
+    Vector3 forward = Vector3Normalize(Vector3Subtract(camera.target, camera.position));
+    float yaw = atan2f(forward.x, forward.z);
+    // Model faces -Z; add 180 deg so its back faces the camera direction.
+    renderRotation = QuaternionFromEuler(0.0f, -yaw + PI, 0.0f);
+
     renderer.DrawSkeletonTransformed(
         anim.GetSkeleton(),
         anim.GetModelMatrices(),
         position,
-        QuaternionIdentity(),
+        renderRotation,
         skeletonScale,
         BLUE,   // joint color
         RED     // bone color

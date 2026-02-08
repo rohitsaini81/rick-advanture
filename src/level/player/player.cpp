@@ -76,11 +76,16 @@ Vector3 Player::GetPosition() const
 void Player::SyncRotation()
 {
     Vector3 forward = Vector3Normalize(Vector3Subtract(camera.target, camera.position));
-Vector3 right   = Vector3Normalize(Vector3CrossProduct(forward, {0, 1, 0}));
+    Vector3 right   = Vector3Normalize(Vector3CrossProduct(forward, {0, 1, 0}));
+
+    // Ignore camera pitch for yaw (no up/down influence).
+    forward.y = 0.0f;
+    if (Vector3Length(forward) < 0.0001f) forward = {0.0f, 0.0f, 1.0f};
+    forward = Vector3Normalize(forward);
 
     float yaw = atan2f(forward.x, forward.z);   // radians
     btQuaternion q;
-    q.setEuler(0, -yaw, 0);
+    q.setEuler(0, yaw, 0);
 
     btTransform trans;
     body->getMotionState()->getWorldTransform(trans);
@@ -138,7 +143,18 @@ void Player::Render()
     // Align bottom of model with physics capsule
     position.y -= modelHeight * 0.5f;
 
-    DrawModel(model, position, 1.0f, WHITE);
+    // Render using camera yaw only (keeps model upright).
+    Vector3 forward = Vector3Normalize(Vector3Subtract(camera.target, camera.position));
+    forward.y = 0.0f;
+    if (Vector3Length(forward) < 0.0001f) forward = {0.0f, 0.0f, 1.0f};
+    forward = Vector3Normalize(forward);
+    float yaw = atan2f(forward.x, forward.z);
+    Quaternion q = QuaternionFromEuler(0.0f, yaw, 0.0f);
+
+    Vector3 axis = {0.0f, 1.0f, 0.0f};
+    float angle = 0.0f;
+    QuaternionToAxisAngle(q, &axis, &angle);
+    DrawModelEx(model, position, axis, angle * RAD2DEG, {1.0f, 1.0f, 1.0f}, WHITE);
 
         if (animCount > 0) {
              animFrameCounter += 1.0f;
