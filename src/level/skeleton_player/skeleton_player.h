@@ -16,7 +16,7 @@ public:
 
     void Update(float deltaTime);
     void Render();
-
+    float skeletonScale = 0.02f; // default 1
     Vector3 GetPosition() const;
     btRigidBody* GetBody() const { return body; }
 

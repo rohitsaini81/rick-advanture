@@ -161,10 +161,10 @@ int screen_number=0;
 
 
     // ---- Create Skeleton Player ----
-    std::string skeleton_path = project_dir + "/assets/ozz/skeleton.ozz";
-    std::string animation_path = project_dir + "/assets/ozz/animation.ozz";
+    std::string skeleton_path = project_dir + "/assets/animrick/skeleton.ozz";
+    std::string animation_path = project_dir + "/assets/animrick/idle.ozz";
 
-    SkeletonPlayer* skeletonPlayer = new SkeletonPlayer(
+    auto* skeletonPlayer = new SkeletonPlayer(
         dynamicsWorld,
         skeleton_path,
         animation_path,
@@ -176,8 +176,9 @@ int screen_number=0;
     // Spawn
     particles.initParticles(
         200,
-        0.03f,    // 3 cm
-        0.1f,     // lighter
+        0.01f ,  // marble
+        0.005f , // sand
+
         { -2, 5, -2 },
         {  2,10,  2 }
     );

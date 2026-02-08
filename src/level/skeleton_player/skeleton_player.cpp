@@ -88,7 +88,7 @@ void SkeletonPlayer::SyncRotation()
 
 void SkeletonPlayer::UpdateAnimation(float deltaTime, bool isMoving)
 {
-    if (isMoving) {
+    if (!isMoving) {
         // Play animation when moving
         if (!anim.IsPlaying()) {
             anim.Play();
@@ -155,7 +155,7 @@ void SkeletonPlayer::Render()
         anim.GetModelMatrices(),
         position,
         QuaternionIdentity(),
-        1.0f,
+        skeletonScale,
         BLUE,   // joint color
         RED     // bone color
     );

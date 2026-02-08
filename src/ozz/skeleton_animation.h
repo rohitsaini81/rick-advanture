@@ -8,6 +8,11 @@
 #include <ozz/animation/runtime/sampling_job.h>
 #include <ozz/animation/runtime/local_to_model_job.h>
 #include <vector>
+#include <unordered_map>
+#include <string>
+
+std::unordered_map<std::string, ozz::animation::Animation> animations_;
+std::string current_animation_;
 
 class SkeletonAnimation {
 public:
