@@ -4,8 +4,12 @@
 #include "raylib.h"
 #include "raymath.h"
 #include <btBulletDynamicsCommon.h>
+#include <array>
+#include <string>
+#include <vector>
 #include "../../ozz/skeleton_animation.h"
-#include "../../ozz/skeleton_renderer.h"
+#include <ozz/base/maths/vec_float.h>
+#include <ozz/base/maths/simd_math.h>
 
 
 enum class PlayerAnimState;
@@ -16,17 +20,20 @@ public:
     SkeletonPlayer(btDiscreteDynamicsWorld* world, const std::string& skeletonPath,
                    const std::string& animationPath, const Vector3& startPos);
     ~SkeletonPlayer();
-void SetAnimationState(PlayerAnimState newState);
+    void SetAnimationState(PlayerAnimState newState);
     void Update(float deltaTime);
     void Render();
-    float skeletonScale = 0.02f; // default 1
     Vector3 GetPosition() const;
     btRigidBody* GetBody() const { return body; }
 
 private:
     void CreatePhysicsBody(const Vector3& startPos);
     void SyncRotation();
-    void UpdateAnimation(float deltaTime, bool isMoving);
+    void LoadSkinnedModel(const std::string& modelPath);
+    void BuildBindPose();
+    void BuildBoneRemap();
+    void RunSkinningJob();
+    void UpdateSkinnedMeshBuffers();
 
 private:
     btDiscreteDynamicsWorld* world;
@@ -36,12 +43,28 @@ private:
     btDefaultMotionState* motionState;
 
     SkeletonAnimation anim;
-    SkeletonRenderer renderer;
 
     float animationTime;
     bool wasMoving;
     float capsuleHeight;
     Quaternion renderRotation;
+    float modelScale = 0.02f;
+
+    // Skinned mesh data
+    Model model{};
+    Mesh* mesh = nullptr;
+    int vertexCount = 0;
+
+    std::vector<ozz::math::Float3> restPositions;
+    std::vector<ozz::math::Float3> restNormals;
+    std::vector<float> skinnedPositions;
+    std::vector<float> skinnedNormals;
+    std::vector<uint16_t> jointIndices;
+    std::vector<float> jointWeights;
+
+    std::vector<int> modelBoneToOzz;
+    std::vector<ozz::math::Float4x4> inverseBindPoses;
+    std::vector<ozz::math::Float4x4> skinningMatrices;
 };
 
 
